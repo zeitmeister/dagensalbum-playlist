@@ -4,7 +4,6 @@ import schedule
 import time
 import logging
 from datetime import date
-import pytest
 
 ytmusic = YTMusic('header-auth.json')
 
