@@ -176,6 +176,7 @@ playlist = Playlist()
 playlist.playlistId = global_playlistId
 
 def run():
+    logging.info("running version 0.3.0")
     try:
         agr = AlbumGeneratorRequest()
         album = Album()
