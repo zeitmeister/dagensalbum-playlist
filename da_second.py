@@ -21,11 +21,15 @@ class SearchResults:
     searchres = dict()
 
     def search(self, artist, title):
-        print(artist)
-        print(title)
-        logging.info(artist)
-        logging.info(title)
-        self.searchres = ytmusic.search(title + " " + artist, "albums")
+        try:
+            logging.info("Todays artist: " + artist)
+            logging.info("Todays album title" + title)
+            self.searchres = ytmusic.search(title + " " + artist, "albums")
+            return True
+        except Exception as e:
+            logging.error("Could not search youtube music. Error: " + str(e))
+            return False
+
 
     def parse_search(self, album, playlist):
         if bool(self.searchres):
@@ -87,6 +91,7 @@ class Playlist:
                     logging.warning("Could not remove or create the playlist again, no real ways to continue. Crashing...")
                     return False
             return True
+        return True
 
 
     def delete_playlist(self):
