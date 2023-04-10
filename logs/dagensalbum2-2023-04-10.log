@@ -1,0 +1,140 @@
+09:59:43,779 root INFO None
+09:59:43,779 root INFO None
+10:04:47,310 root INFO None
+10:04:47,310 root INFO None
+10:11:03,995 root INFO Sepultura
+10:11:03,995 root INFO Arise
+10:40:55,143 root INFO Sepultura
+10:40:55,143 root INFO Arise
+10:40:55,771 root INFO Could not add track to playlist. Error: 'NoneType' object has no attribute 'startswith'
+10:40:55,771 root INFO Could not add track to playlist. Error: 'NoneType' object has no attribute 'startswith'
+10:40:55,771 root INFO Could not add track to playlist. Error: 'NoneType' object has no attribute 'startswith'
+10:40:55,772 root INFO Could not add track to playlist. Error: 'NoneType' object has no attribute 'startswith'
+10:40:55,772 root INFO Could not add track to playlist. Error: 'NoneType' object has no attribute 'startswith'
+10:40:55,772 root INFO Could not add track to playlist. Error: 'NoneType' object has no attribute 'startswith'
+10:40:55,772 root INFO Could not add track to playlist. Error: 'NoneType' object has no attribute 'startswith'
+10:40:55,772 root INFO Could not add track to playlist. Error: 'NoneType' object has no attribute 'startswith'
+10:40:55,772 root INFO Could not add track to playlist. Error: 'NoneType' object has no attribute 'startswith'
+10:40:55,772 root INFO Could not add track to playlist. Error: 'NoneType' object has no attribute 'startswith'
+10:40:55,772 root INFO Could not add track to playlist. Error: 'NoneType' object has no attribute 'startswith'
+10:40:55,772 root INFO Could not add track to playlist. Error: 'NoneType' object has no attribute 'startswith'
+10:40:55,772 root INFO Could not add track to playlist. Error: 'NoneType' object has no attribute 'startswith'
+10:47:32,925 root INFO Sepultura
+10:47:32,925 root INFO Arise
+10:47:34,289 root INFO Track: Arise added to playlist.
+10:47:34,290 root INFO Could not add track to playlist. Error: 'NoneType' object has no attribute 'append'
+10:47:35,296 root INFO Track: Dead Embryonic Cells added to playlist.
+10:47:35,296 root INFO Could not add track to playlist. Error: 'NoneType' object has no attribute 'append'
+10:47:36,49 root INFO Could not add track to playlist. Error: Server returned HTTP 409: Conflict.
+Sorry, something went wrong.
+10:47:36,998 root INFO Track: Murder added to playlist.
+10:47:36,998 root INFO Could not add track to playlist. Error: 'NoneType' object has no attribute 'append'
+10:47:38,22 root INFO Track: Subtraction added to playlist.
+10:47:38,22 root INFO Could not add track to playlist. Error: 'NoneType' object has no attribute 'append'
+10:47:38,946 root INFO Track: Altered State added to playlist.
+10:47:38,946 root INFO Could not add track to playlist. Error: 'NoneType' object has no attribute 'append'
+10:47:39,771 root INFO Track: Under Siege (Regnum Irae) added to playlist.
+10:47:39,771 root INFO Could not add track to playlist. Error: 'NoneType' object has no attribute 'append'
+10:47:40,771 root INFO Track: Meaningless Movements added to playlist.
+10:47:40,771 root INFO Could not add track to playlist. Error: 'NoneType' object has no attribute 'append'
+10:47:41,604 root INFO Track: Infected Voice added to playlist.
+10:47:41,604 root INFO Could not add track to playlist. Error: 'NoneType' object has no attribute 'append'
+10:47:42,422 root INFO Track: Orgasmatron added to playlist.
+10:47:42,422 root INFO Could not add track to playlist. Error: 'NoneType' object has no attribute 'append'
+10:47:43,188 root INFO Track: Intro (Arise) added to playlist.
+10:47:43,188 root INFO Could not add track to playlist. Error: 'NoneType' object has no attribute 'append'
+10:47:44,62 root INFO Track: C.I.U. (Criminals in Uniform) added to playlist.
+10:47:44,63 root INFO Could not add track to playlist. Error: 'NoneType' object has no attribute 'append'
+10:47:45,145 root INFO Track: Desperate Cry (Scott Burns Mix) added to playlist.
+10:47:45,145 root INFO Could not add track to playlist. Error: 'NoneType' object has no attribute 'append'
+10:54:29,531 root INFO Sepultura
+10:54:29,531 root INFO Arise
+10:54:31,141 root INFO Track: Arise added to playlist.
+10:54:31,968 root INFO Track: Dead Embryonic Cells added to playlist.
+10:54:33,7 root INFO Track: Desperate Cry added to playlist.
+10:54:33,761 root INFO Track: Murder added to playlist.
+10:54:34,559 root INFO Track: Subtraction added to playlist.
+10:54:35,311 root INFO Track: Altered State added to playlist.
+10:54:36,265 root INFO Track: Under Siege (Regnum Irae) added to playlist.
+10:54:37,181 root INFO Track: Meaningless Movements added to playlist.
+10:54:37,680 root INFO Could not add track to playlist. Error: Server returned HTTP 409: Conflict.
+Sorry, something went wrong.
+10:54:38,558 root INFO Track: Orgasmatron added to playlist.
+10:54:39,309 root INFO Track: Intro (Arise) added to playlist.
+10:54:40,80 root INFO Track: C.I.U. (Criminals in Uniform) added to playlist.
+10:54:40,970 root INFO Track: Desperate Cry (Scott Burns Mix) added to playlist.
+10:54:43,353 root WARNING Album not completely added to playlist. Some tracks appear to be missing
+10:55:03,901 root INFO Track list is not empty. Starting to remove tracks...
+10:55:03,901 root WARNING Could not empty playlist. Error is :'YTMusic' object has no attribute 'remove_playlist_item'
+10:55:03,901 root WARNING Could not remove or create the playlist again, no real ways to continue. Crashing...
+11:02:13,295 root INFO Sepultura
+11:02:13,295 root INFO Arise
+11:02:14,804 root INFO Track: Arise added to playlist.
+11:02:17,777 root INFO Track: Dead Embryonic Cells added to playlist.
+11:02:20,562 root INFO Track: Desperate Cry added to playlist.
+11:02:23,408 root INFO Track: Murder added to playlist.
+11:02:26,191 root INFO Track: Subtraction added to playlist.
+11:02:29,33 root INFO Track: Altered State added to playlist.
+11:02:31,927 root INFO Track: Under Siege (Regnum Irae) added to playlist.
+11:02:34,761 root INFO Track: Meaningless Movements added to playlist.
+11:02:37,629 root INFO Track: Infected Voice added to playlist.
+11:02:40,487 root INFO Track: Orgasmatron added to playlist.
+11:02:43,356 root INFO Track: Intro (Arise) added to playlist.
+11:02:46,300 root INFO Track: C.I.U. (Criminals in Uniform) added to playlist.
+11:02:49,87 root INFO Track: Desperate Cry (Scott Burns Mix) added to playlist.
+11:02:51,536 root INFO Album completely added to playlist
+11:03:12,107 root INFO Track list is not empty. Starting to remove tracks...
+11:03:12,107 root WARNING Could not empty playlist. Error is :'YTMusic' object has no attribute 'remove_playlist_item'
+11:03:12,107 root WARNING Could not remove or create the playlist again, no real ways to continue. Crashing...
+11:21:02,552 root INFO Sepultura
+11:21:02,552 root INFO Arise
+11:21:04,456 root INFO Track: Arise added to playlist.
+11:21:07,337 root INFO Track: Dead Embryonic Cells added to playlist.
+11:21:10,180 root INFO Track: Desperate Cry added to playlist.
+11:21:13,60 root INFO Track: Murder added to playlist.
+11:21:15,932 root INFO Track: Subtraction added to playlist.
+11:21:18,797 root INFO Track: Altered State added to playlist.
+11:21:21,656 root INFO Track: Under Siege (Regnum Irae) added to playlist.
+11:21:24,522 root INFO Track: Meaningless Movements added to playlist.
+11:21:27,337 root INFO Track: Infected Voice added to playlist.
+11:21:30,137 root INFO Track: Orgasmatron added to playlist.
+11:21:33,13 root INFO Track: Intro (Arise) added to playlist.
+11:21:36,73 root INFO Track: C.I.U. (Criminals in Uniform) added to playlist.
+11:21:39,140 root INFO Track: Desperate Cry (Scott Burns Mix) added to playlist.
+11:21:41,592 root INFO Album completely added to playlist
+11:22:02,304 root INFO Track list is not empty. Starting to remove tracks...
+11:22:03,436 root WARNING Could not empty playlist. Error is :name 'tracklist' is not defined
+11:22:03,714 root INFO Playlist deleted. Creating it again...
+11:22:04,637 root INFO Playlist recreated
+11:22:04,637 root INFO Sepultura
+11:22:04,637 root INFO Arise
+11:22:06,226 root INFO Track: Arise added to playlist.
+11:22:09,5 root INFO Track: Dead Embryonic Cells added to playlist.
+11:22:11,776 root INFO Track: Desperate Cry added to playlist.
+11:22:14,786 root INFO Track: Murder added to playlist.
+11:22:17,574 root INFO Track: Subtraction added to playlist.
+11:22:20,394 root INFO Track: Altered State added to playlist.
+11:22:23,450 root INFO Track: Under Siege (Regnum Irae) added to playlist.
+11:22:26,434 root INFO Track: Meaningless Movements added to playlist.
+11:22:29,299 root INFO Track: Infected Voice added to playlist.
+11:22:32,457 root INFO Track: Orgasmatron added to playlist.
+11:22:35,337 root INFO Track: Intro (Arise) added to playlist.
+11:22:38,204 root INFO Track: C.I.U. (Criminals in Uniform) added to playlist.
+11:22:41,364 root INFO Track: Desperate Cry (Scott Burns Mix) added to playlist.
+11:22:43,802 root INFO Album completely added to playlist
+11:23:04,361 root INFO Track list is not empty. Starting to remove tracks...
+11:23:05,105 root WARNING Could not empty playlist. Error is :Server returned HTTP 400: Bad Request.
+Precondition check failed.
+11:23:05,673 root INFO Playlist deleted. Creating it again...
+11:23:06,204 root INFO Playlist recreated
+11:23:06,205 root INFO Sepultura
+11:23:06,205 root INFO Arise
+11:23:08,44 root INFO Track: Arise added to playlist.
+11:23:10,894 root INFO Track: Dead Embryonic Cells added to playlist.
+11:23:13,645 root INFO Track: Desperate Cry added to playlist.
+11:23:16,785 root INFO Track: Murder added to playlist.
+11:23:19,527 root INFO Track: Subtraction added to playlist.
+11:23:22,413 root INFO Track: Altered State added to playlist.
+11:23:25,185 root INFO Track: Under Siege (Regnum Irae) added to playlist.
+11:23:28,35 root INFO Track: Meaningless Movements added to playlist.
+11:23:30,904 root INFO Track: Infected Voice added to playlist.
