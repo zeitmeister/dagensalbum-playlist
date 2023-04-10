@@ -76,6 +76,7 @@ class Playlist:
             try:
                 ytmusic.remove_playlist_items(self.playlistId, self.tracklist)
                 self.tracklist.clear()
+                logging.info("Playlist cleared")
                 return True
             except Exception as e:
                 logging.warning("Could not empty playlist. Error is :" + str(e))
