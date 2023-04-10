@@ -23,7 +23,7 @@ class SearchResults:
     def search(self, artist, title):
         try:
             logging.info("Todays artist: " + artist)
-            logging.info("Todays album title" + title)
+            logging.info("Todays album title: " + title)
             self.searchres = ytmusic.search(title + " " + artist, "albums")
             return True
         except Exception as e:
