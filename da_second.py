@@ -75,7 +75,7 @@ class Playlist:
             logging.info("Track list is not empty. Starting to remove tracks...")
             try:
                 ytmusic.remove_playlist_items(self.playlistId, self.tracklist)
-                tracklist.clear()
+                self.tracklist.clear()
                 return True
             except Exception as e:
                 logging.warning("Could not empty playlist. Error is :" + str(e))
