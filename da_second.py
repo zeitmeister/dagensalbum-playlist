@@ -75,7 +75,7 @@ class Playlist:
                 return True
             except Exception as e:
                 logging.warning("Could not empty playlist. Error is :" + str(e))
-
+                return False
                 try:
                     ytmusic.delete_playlist(self.playlistId)
                     global_playlistId = None
@@ -85,8 +85,8 @@ class Playlist:
                     return True
                 except Exception as e:
                     logging.warning("Could not remove or create the playlist again, no real ways to continue. Crashing...")
-                    raise e
-            return False
+                    return False
+            return True
 
 
     def delete_playlist(self):
@@ -177,6 +177,7 @@ def run():
             if bool(global_playlistId):
                 playlist.playlistId = global_playlistId
             else:
+                print("We shoudl not be here")
                 playlist.playlistId = ytmusic.create_playlist("Dagens Album", "En automatiserad playlist av dagens album.")
         search_result = SearchResults()
         if (agr.get_json_response()):
@@ -194,8 +195,8 @@ def run():
 
 
 
-schedule.every().day.at("06:00").do(run)
-# schedule.every(20).seconds.do(run)
+# schedule.every().day.at("06:00").do(run)
+schedule.every(20).seconds.do(run)
 
 while True:
     schedule.run_pending()
