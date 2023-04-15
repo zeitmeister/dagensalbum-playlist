@@ -241,8 +241,8 @@ def run():
 
 
 
-# schedule.every().day.at("06:00").do(run)
-schedule.every(40).seconds.do(run)
+schedule.every().day.at("06:00").do(run)
+# schedule.every(40).seconds.do(run)
 
 while True:
     schedule.run_pending()
