@@ -23,7 +23,11 @@ jobs:
       - name: Pull Docker image
         run: docker pull zeitmeister/da-playlist:latest
       - name: Copy secret to file
-        run: echo "${{ secrets.AUTH }}" > header-auth.json
+        id: create-json
+        uses: jsdaniell/create-json@v1.2.2
+        with: 
+          name: "header-auth.json"
+          json: ${{ secrets.AUTH }}
       - name: Copy file to Docker container
         run: docker cp header-auth.json da-playlist-container:/code/header-auth.json 
 
