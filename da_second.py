@@ -4,8 +4,10 @@ import schedule
 import time
 import logging
 from datetime import date
+import json
 
 ytmusic = YTMusic('header-auth.json')
+
 
 logging.basicConfig(filename="./logs/dagensalbum2-"+str(date.today())+".log",
                     format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
@@ -14,6 +16,8 @@ logging.basicConfig(filename="./logs/dagensalbum2-"+str(date.today())+".log",
 
 
 global_playlistId = ytmusic.create_playlist("Dagens Album", "En automatiserad playlist av dagens album.")
+global_artist = None
+global_title = None
 
 class SearchResults:
 
@@ -69,7 +73,8 @@ class Playlist:
         self.tracklist = tl
 
     def clear_playlist(self):
-        global global_playlistId
+        if not bool(self.update_tracklist()):
+            return False
         if bool(self.tracklist) and len(self.tracklist) > 0:
             logging.info("Track list is not empty. Starting to remove tracks...")
             try:
@@ -80,24 +85,34 @@ class Playlist:
             except Exception as e:
                 logging.warning("Could not empty playlist. Error is :" + str(e))
                 return False
-                try:
-                    ytmusic.delete_playlist(self.playlistId)
-                    global_playlistId = None
-                    logging.info("Playlist deleted. Creating it again...")
-                    self.playlistId = ytmusic.create_playlist("Dagens Album", "En automatiserad playlist av dagens album.")
-                    logging.info("Playlist recreated")
-                    return True
-                except Exception as e:
-                    logging.warning("Could not remove or create the playlist again, no real ways to continue. Crashing...")
-                    return False
-            return True
         return True
+
+    def update_tracklist(self):
+        try:
+            playlist = ytmusic.get_playlist(self.playlistId)
+            if playlist['trackCount'] != len(self.tracklist):
+                logging.info("Tracklist is not up to date. Updating...")
+                self.tracklist.clear()
+                for track in playlist['tracks']:
+                    trackDict = {
+                        "videoId" : track['videoId'],
+                        "setVideoId" : track['setVideoId']
+                    }
+                    self.tracklist.append(trackDict)
+                logging.info("Tracklist updated")
+                return True
+            else:
+                return True
+        except Exception as e:
+            logging.warning("Could not update tracklist. Error is :" + str(e))
+            return False
 
 
     def delete_playlist(self):
         try:
             ytmusic.delete_playlist(self.playlistId)
             return True
+            logging.info("Playlist deleted")
         except Exception as e:
             logging.warning("Could not delete playlist. Error is :" + str(e))
             return False
@@ -157,6 +172,22 @@ class AlbumGeneratorRequest:
         except Exception as e:
             logging.error("Could not make request to album generator. No internet? Error is: " + str(e))
             return False
+
+    def compare_with_yesterday(self, global_album):
+        global global_artist, global_title
+        if global_album.artist == global_artist and global_album.title == global_title:
+            logging.info("Album is the same as yesterday. No need to update playlist")
+            return False
+        else:
+            logging.info("Album is different from yesterday. Updating playlist")
+            global_album.set_current_album(self.response['currentAlbum']['artist'], self.response['currentAlbum']['name'])
+            global_artist = global_album.artist
+            global_title = global_album.title
+            return True
+        return False
+        logging.warning("No current album")
+        return False
+
     def parse_data(self, global_album):
         if 'currentAlbum' in self.response:
 
@@ -175,7 +206,10 @@ playlist = Playlist()
 playlist.playlistId = global_playlistId
 
 def run():
-    logging.info("running version 0.3.0")
+    f = open('version.json')
+    data = json.load(f)
+    logging.info("running version: " + data['version'])
+    f.close()
     try:
         agr = AlbumGeneratorRequest()
         album = Album()
@@ -183,15 +217,21 @@ def run():
             if bool(global_playlistId):
                 playlist.playlistId = global_playlistId
             else:
-                print("We shoudl not be here")
                 playlist.playlistId = ytmusic.create_playlist("Dagens Album", "En automatiserad playlist av dagens album.")
         search_result = SearchResults()
         if (agr.get_json_response()):
             parse_agr = agr.parse_data(album)
             if not parse_agr:
                 raise ValueError("Could not parse data from album generator")
+            if not agr.compare_with_yesterday(album):
+                raise ValueError("Album is the same as yesterday. No need to update playlist")
         if not playlist.clear_playlist():
-            raise ValueError("Something went wrong when handling the playlist")
+            logging.info("Could not clear playlist. Trying to delete playlist and create a new one")
+            if not playlist.delete_playlist():
+                raise ValueError("Could not delete playlist")
+            else:
+                if not playlist.create_playlist():
+                    raise ValueError("Could not create playlist")
         if not search_result.search(album.artist, album.title):
             raise ValueError("Something went wrong when performing search on youtube music")
         if search_result.parse_search(album, playlist):
@@ -201,8 +241,8 @@ def run():
 
 
 
-schedule.every().day.at("06:00").do(run)
-# schedule.every(20).seconds.do(run)
+# schedule.every().day.at("06:00").do(run)
+schedule.every(40).seconds.do(run)
 
 while True:
     schedule.run_pending()
