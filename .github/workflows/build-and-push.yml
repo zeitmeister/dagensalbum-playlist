@@ -20,6 +20,12 @@ jobs:
         with:
           username: ${{ env.DOCKERHUB_USERNAME }}
           password: ${{ env.DOCKERHUB_PASSWORD }}
+      - name: Pull Docker image
+        run: docker pull zeitmeister/da-playlist:latest
+      - name: Copy secret to file
+        run: echo "${{ secrets.AUTH }}" > header-auth.json
+      - name: Copy file to Docker container
+        run: docker cp header-auth.json da-playlist-container:/code/header-auth.json 
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
