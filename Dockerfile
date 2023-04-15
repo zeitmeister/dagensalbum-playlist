@@ -5,7 +5,6 @@ WORKDIR /code
 ADD dagensalbum.py /code/
 ADD test.py /code/
 ADD da_second.py /code/
-ADD header-auth.json /code/
 ADD version.json /code/
 ENV TZ="Europe/Stockholm"
 RUN pip3 install ytmusicapi requests schedule
