@@ -19,6 +19,10 @@ global_playlistId = ytmusic.create_playlist("Dagens Album", "En automatiserad pl
 global_artist = None
 global_title = None
 
+f = open('version.json')
+data = json.load(f)
+logging.info("running version: " + data['version'])
+f.close()
 class SearchResults:
 
     searchres = dict()
