@@ -49,7 +49,7 @@ jobs:
       - name: Test Environment variables
         run:
           echo "HELLO DUWG"
-          echo ${{ env }}
+          echo ${{ env.TEST }}
           echo ${{ env.HEADER_AUTH_JSON }}
           echo "HELLO DAWG"
 
