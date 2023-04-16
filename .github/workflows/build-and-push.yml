@@ -47,7 +47,7 @@ jobs:
             "PLAYLIST_ENVIRONMENT_BUILD=production"
             "TEST=${{ env.TEST }}"
           secrets: |
-            "HEADER_AUTH_JSON=${{ env.HEADER_AUTH_JSON }}"
+            "HEADER_AUTH_JSON=${{ secrets.AUTH }}"
       - name: Test Environment variables
         run:
           echo "HELLO DUWG"
