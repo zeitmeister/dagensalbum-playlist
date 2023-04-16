@@ -5,8 +5,17 @@ import time
 import logging
 from datetime import date
 import json
+import os
 
-ytmusic = YTMusic('header-auth.json')
+env = os.getenv('PLAYLIST_ENVIRONMENT_BUILD')
+ytmusic = None
+if env == "development":
+    print("Running in development mode")
+    ytmusic = YTMusic('header-auth.json')
+if env == "production":
+    print("Running in production mode")
+    header_auth_json = json.loads(os.getenv('HEADER_AUTH_JSON'))
+    ytmusic = YTMusic(header_auth_json)
 
 
 logging.basicConfig(filename="./logs/dagensalbum2-"+str(date.today())+".log",

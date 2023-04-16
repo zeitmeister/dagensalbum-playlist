@@ -1,6 +1,6 @@
 version: "3.9"
 services:
   dagens-album:
-    image: "zeitmeister/test:latest"
+    image: "zeitmeister/da-playlist:latest"
     volumes: 
         - /home/simon/code/da-logs:/code/logs
