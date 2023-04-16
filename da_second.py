@@ -7,15 +7,11 @@ from datetime import date
 import json
 import os
 
+for name, value in os.environ.items():
+    print("{0}: {1}".format(name, value))
 env = os.getenv('PLAYLIST_ENVIRONMENT_BUILD')
 ytmusic = None
-if env == "development":
-    print("Running in development mode")
-    ytmusic = YTMusic('header-auth.json')
-if env == "production":
-    print("Running in production mode")
-    header_auth_json = json.loads(os.getenv('HEADER_AUTH_JSON'))
-    ytmusic = YTMusic(header_auth_json)
+
 
 
 logging.basicConfig(filename="./logs/dagensalbum2-"+str(date.today())+".log",
@@ -23,6 +19,13 @@ logging.basicConfig(filename="./logs/dagensalbum2-"+str(date.today())+".log",
                     datefmt='%H:%M:%S',
                     level=logging.INFO)
 
+if env == "development":
+    logging.info("Running in development mode")
+    ytmusic = YTMusic('header-auth.json')
+if env == "production":
+    logging.info("Running in production mode")
+    header_auth_json = json.loads(os.getenv('HEADER_AUTH_JSON'))
+    ytmusic = YTMusic(header_auth_json)
 
 global_playlistId = ytmusic.create_playlist("Dagens Album", "En automatiserad playlist av dagens album.")
 global_artist = None
