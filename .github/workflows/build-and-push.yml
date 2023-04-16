@@ -44,6 +44,10 @@ jobs:
           build-args: |
             "HEADER_AUTH_JSON=${{ env.HEADER_AUTH_JSON }}"
             "PLAYLIST_ENVIRONMENT_BUILD=production"
+        run:
+          echo "HELLO DUWG"
+          echo ${{ env.HEADER_AUTH_JSON }}
+          echo "HELLO DAWG"
 
 
 
