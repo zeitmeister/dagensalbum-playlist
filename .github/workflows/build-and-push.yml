@@ -31,8 +31,11 @@ jobs:
       - name: Set environment variable
         env:
           playlist_environment_build: "production"
-        run: |
-          json_str=$(python -c "import json; with open('header-auth.json') as f: data = json.load(f); print(json.dumps(data))")
+        run: | 
+          json_object=$(cat header-auth.json)
+          json_string=$(echo $json_object | jq -c .)
+          echo "export HEADER_AUTH_JSON=$json_string" >> $GITHUB_ENV
+        env:
           echo "::set-env name=HEADER_AUTH_JSON::$json_str"
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
