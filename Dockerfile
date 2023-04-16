@@ -9,5 +9,6 @@ ADD version.json /code/
 ENV TZ="Europe/Stockholm"
 ENV PLAYLIST_ENVIRONMENT_BUILD=production
 ENV HEADER_AUTH_JSON=${HEADER_AUTH_JSON}
+ENV TEST=${TEST}
 RUN pip3 install ytmusicapi requests schedule
 CMD ["python3", "./da_second.py"]
