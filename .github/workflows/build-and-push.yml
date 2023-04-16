@@ -34,7 +34,7 @@ jobs:
         run: | 
           json_object=$(cat header-auth.json)
           json_string=$(echo $json_object | jq -c .)
-          echo "export HEADER_AUTH_JSON=$json_string" >> $GITHUB_ENV
+          echo "HEADER_AUTH_JSON=$json_string" >> $GITHUB_ENV
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
@@ -42,8 +42,8 @@ jobs:
           push: true
           tags: ${{ env.DOCKERHUB_USERNAME }}/da-playlist:latest
           build-args: |
-            "HEADER_AUTH_JSON=${{ env.HEADER_AUTH_JSON }}"
-            "PLAYLIST_ENVIRONMENT_BUILD=production"
+            HEADER_AUTH_JSON=${{ env.HEADER_AUTH_JSON }}
+            PLAYLIST_ENVIRONMENT_BUILD=production
       - name: Test Environment variables
         run:
           echo "HELLO DUWG"
