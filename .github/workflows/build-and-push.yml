@@ -30,7 +30,7 @@ jobs:
           json: ${{ secrets.AUTH }}
       - name: Set environment variable
         env:
-          playlist_environment_build: "production"
+          TEST: "kebabsoes"
         run: | 
           json_object=$(cat header-auth.json)
           json_string=$(echo $json_object | jq -c .)
@@ -45,6 +45,7 @@ jobs:
           build-args: |
             "HEADER_AUTH_JSON=${{ secrets.AUTH }}"
             "PLAYLIST_ENVIRONMENT_BUILD=production"
+            "TEST=${{ env.TEST }}"
       - name: Test Environment variables
         run:
           echo "HELLO DUWG"
