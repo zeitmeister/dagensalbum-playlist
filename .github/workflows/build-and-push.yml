@@ -28,9 +28,14 @@ jobs:
         with: 
           name: "header-auth.json"
           json: ${{ secrets.AUTH }}
-      - name: Copy file to Docker container
-        run: docker cp header-auth.json da-playlist-container:/code/header-auth.json 
-
+      - name: JSON to variables
+        uses: rgarcia-phi/json-to-variables@v1.1.0
+        with:
+          filename: 'header-auth.json'
+          prefix: da
+          masked: true
+      - name: Show output
+        run: echo "The json ${{env.da_accept}}"
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
