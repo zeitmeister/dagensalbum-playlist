@@ -41,8 +41,9 @@ jobs:
           context: .
           push: true
           tags: ${{ env.DOCKERHUB_USERNAME }}/da-playlist:latest
+          container-name: da-playlist-container
           build-args: |
-            HEADER_AUTH_JSON=${{ env.HEADER_AUTH_JSON }}
+            HEADER_AUTH_JSON=${{ secrets.AUTH }}
             PLAYLIST_ENVIRONMENT_BUILD=production
       - name: Test Environment variables
         run:
