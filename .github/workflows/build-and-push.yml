@@ -29,9 +29,6 @@ jobs:
         with: 
           name: "header-auth.json"
           json: ${{ secrets.AUTH }}
-      - name: Set environment variable
-        env:
-          TEST: "kebabsoes"
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
