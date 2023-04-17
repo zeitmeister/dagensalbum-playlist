@@ -7,6 +7,7 @@ on:
 env:
   DOCKERHUB_USERNAME: zeitmeister
   DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+  HEADER_AUTH_JSON2: YOMAMAMAMABAHAMAS
 
 jobs:
   build-and-push:
@@ -46,6 +47,7 @@ jobs:
             "HEADER_AUTH_JSON=${{ env.HEADER_AUTH_JSON }}"
             "PLAYLIST_ENVIRONMENT_BUILD=production"
             "TEST=${{ env.TEST }}"
+            "HEADER_AUTH_JSON2=${{ env.HEADER_AUTH_JSON2 }}"
       - name: Test Environment variables
         run:
           echo "HELLO DUWG"
