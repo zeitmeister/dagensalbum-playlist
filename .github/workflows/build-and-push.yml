@@ -43,14 +43,14 @@ jobs:
           tags: ${{ env.DOCKERHUB_USERNAME }}/da-playlist:latest
           container: da-playlist-container
           build-args: |
-            "HEADER_AUTH_JSON=${{ secrets.AUTH }}"
+            "HEADER_AUTH_JSON=${{ env.HEADER_AUTH_JSON }}"
             "PLAYLIST_ENVIRONMENT_BUILD=production"
             "TEST=${{ env.TEST }}"
       - name: Test Environment variables
         run:
           echo "HELLO DUWG"
-          echo ${{ env.TEST }}
-          echo ${{ env.HEADER_AUTH_JSON }}
+          ${{ env.TEST.PLAYLIST_ENVIRONMENT_BUILD }}
+          ${{ env.HEADER_AUTH_JSON }}
           echo "HELLO DAWG"
 
 
