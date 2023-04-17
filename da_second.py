@@ -11,7 +11,7 @@ for name, value in os.environ.items():
     print("{0}: {1}".format(name, value))
 env = os.getenv('PLAYLIST_ENVIRONMENT_BUILD')
 ytmusic = None
-
+print("your mother sucks cocks in hell")
 
 
 logging.basicConfig(filename="./logs/dagensalbum2-"+str(date.today())+".log",
