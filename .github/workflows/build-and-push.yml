@@ -36,7 +36,7 @@ jobs:
           json_object=$(cat header-auth.json)
           json_string=$(echo $json_object | jq -c .)
           encoded_string=$(echo $(cat header-auth.json) | base64)
-          cat encoded_string
+          echo $encoded_string
           echo "HEADER_AUTH_JSON=$encoded_string" >> $GITHUB_ENV
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
