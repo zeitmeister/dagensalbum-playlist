@@ -32,10 +32,6 @@ jobs:
       - name: Set environment variable
         env:
           TEST: "kebabsoes"
-        run: | 
-          json_object=$(cat header-auth.json)
-          json_string=$(echo $json_object | jq -c .)
-          encoded_string=$(echo $json_object | base64)
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
