@@ -35,10 +35,9 @@ jobs:
         run: | 
           json_object=$(cat header-auth.json)
           json_string=$(echo $json_object | jq -c .)
-          auth=${{ secrets.AUTH }}
-          echo $auth
-          encoded_string=$(echo $auth | base64)
-          cat header-auth.json
+          encoded_string=$(echo $json_object | base64)
+          echo "The file:$(cat header-auth.json)" >> $GITHUB_OUTPUT
+          echo "The encoded string:$(echo encoded_string)" >> $GITHUB_OUTPUT
           echo $encoded_string
           echo "HEADER_AUTH_JSON=$encoded_string" >> $GITHUB_ENV
       - name: Build and push Docker image
