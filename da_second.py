@@ -6,12 +6,12 @@ import logging
 from datetime import date
 import json
 import os
+import base64
 
 for name, value in os.environ.items():
     print("{0}: {1}".format(name, value))
 env = os.getenv('PLAYLIST_ENVIRONMENT_BUILD')
 ytmusic = None
-print("your mother sucks cocks in hell")
 
 
 logging.basicConfig(filename="./logs/dagensalbum2-"+str(date.today())+".log",
@@ -24,8 +24,10 @@ if env == "development":
     ytmusic = YTMusic('header-auth.json')
 if env == "production":
     logging.info("Running in production mode")
-    header_auth_json = json.loads(os.getenv('HEADER_AUTH_JSON'))
-    ytmusic = YTMusic(header_auth_json)
+    header_auth = os.getenv('HEADER_AUTH_JSON')
+    json_str = base64.b64decode(header_auth).decode()
+    json_dict = json.loads(json_str)
+    ytmusic = YTMusic(json_dict)
 
 global_playlistId = ytmusic.create_playlist("Dagens Album", "En automatiserad playlist av dagens album.")
 global_artist = None
