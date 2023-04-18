@@ -21,7 +21,7 @@ if env == "development":
     logging.info("Running in development mode")
     ytmusic = YTMusic('header-auth.json')
 if env == "production":
-    logging.info("Running in production mode")
+    logging.info("Running in production mode dawg!")
     header_auth = os.getenv('HEADER_AUTH_JSON')
     json_str = base64.b64decode(header_auth).decode()
     json_dict = json.loads(json_str)
@@ -37,6 +37,7 @@ f = open('version.json')
 data = json.load(f)
 logging.info("running version: " + data['version'])
 f.close()
+
 class SearchResults:
 
     searchres = dict()
@@ -226,6 +227,7 @@ playlist.playlistId = global_playlistId
 def run():
     f = open('version.json')
     data = json.load(f)
+    logging.info("New day, new album!?")
     logging.info("running version: " + data['version'])
     f.close()
     try:
@@ -256,8 +258,6 @@ def run():
             logging.info("Code executed with no errors today: " + str(date.today()))
     except Exception as e:
         logging.error("Could not run the program. Error : " + str(e))
-
-
 
 schedule.every().day.at("06:00").do(run)
 # schedule.every(40).seconds.do(run)
