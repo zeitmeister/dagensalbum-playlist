@@ -8,11 +8,7 @@ import json
 import os
 import base64
 
-for name, value in os.environ.items():
-    print("{0}: {1}".format(name, value))
-env = os.getenv('PLAYLIST_ENVIRONMENT_BUILD')
 ytmusic = None
-
 
 logging.basicConfig(filename="./logs/dagensalbum2-"+str(date.today())+".log",
                     format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
@@ -27,7 +23,9 @@ if env == "production":
     header_auth = os.getenv('HEADER_AUTH_JSON')
     json_str = base64.b64decode(header_auth).decode()
     json_dict = json.loads(json_str)
-    ytmusic = YTMusic(json_dict)
+    with open('header-auth.json', 'w') as f:
+        json.dump(json_dict, f)
+    ytmusic = YTMusic('header_auth_json')
 
 global_playlistId = ytmusic.create_playlist("Dagens Album", "En automatiserad playlist av dagens album.")
 global_artist = None
