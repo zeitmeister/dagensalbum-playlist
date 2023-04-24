@@ -279,7 +279,7 @@ def run():
 
 if env == "production":
     schedule.every().day.at("06:00").do(run)
-if env == "development"
+if env == "development":
     schedule.every(40).seconds.do(run)
 
 while True:
