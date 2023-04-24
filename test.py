@@ -2,6 +2,7 @@ from ytmusicapi import YTMusic
 import time
 import logging
 from datetime import date
+import os
 
 ytmusic = YTMusic('header-auth.json')
 
@@ -10,7 +11,10 @@ logging.basicConfig(filename="./logs/test-"+str(date.today())+".log",
                     datefmt='%H:%M:%S',
                     level=logging.INFO)
 logging.error("Me i expected it to happen")
-search_results = ytmusic.search("Sepultura Arise", "albums")
-logging.info(search_results)
-print(search_results)
 
+album = ytmusic.get_album_browse_id("OLAK5uy_kc5UNFZYKSe85ERJt10h59QRSJoJth4rc")
+print(album)
+# for track in album['tracks']:
+#         logging.info("Track: " + track["title"] + " added to playlist.")
+secret = os.environ.get('DAGENS_SECRET')
+print(secret)

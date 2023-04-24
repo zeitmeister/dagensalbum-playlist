@@ -67,7 +67,20 @@ class SearchResults:
                 return False
 
         else:
-            logging.info("No search result... Guess there'll be no playlist today")
+            logging.info("No search result... Trying to get the album from Alexander's api instead")
+            return False
+
+    def get_album_from_audioplaylistId(self, album, playlist):
+        try:
+            browseId = ytmusic.get_album_browse_id(album.audioPlaylistId)
+            ytmusicalbum = ytmusic.get_album(browseId)
+            if bool(ytmusicalbum):
+                album.nrOfSongs = len(ytmusicalbum['tracks'])
+                return playlist.populate_playlist(ytmusicalbum, album)
+            else:
+                return False
+        except Exception as e:
+            logging.error("Could not get album from audioPlaylistId. Error: " + str(e))
             return False
 
 class Album:
@@ -75,12 +88,14 @@ class Album:
     artist = None
     title = None
     nrOfSongs = None
+    audioPlaylistId = None
 
-    def set_current_album(self, artist, title):
+    def set_current_album(self, artist, title, audioId):
         if not artist or not title:
             raise Exception
         self.artist = artist
         self.title = title
+        self.audioPlaylistId = audioId
         return True
 
 class Playlist:
@@ -171,7 +186,7 @@ class Playlist:
             return True
         else:
             logging.warning("Album not completely added to playlist. Some tracks appear to be missing")
-            return False
+            return True
 
 
 class AlbumGeneratorRequest:
@@ -199,7 +214,7 @@ class AlbumGeneratorRequest:
             return False
         else:
             logging.info("Album is different from yesterday. Updating playlist")
-            global_album.set_current_album(self.response['currentAlbum']['artist'], self.response['currentAlbum']['name'])
+            global_album.set_current_album(self.response['currentAlbum']['artist'], self.response['currentAlbum']['name'], self.response['currentAlbum']['youtubeMusicId'])
             global_artist = global_album.artist
             global_title = global_album.title
             return True
@@ -210,8 +225,8 @@ class AlbumGeneratorRequest:
     def parse_data(self, global_album):
         if 'currentAlbum' in self.response:
 
-            if 'artist' in self.response['currentAlbum'] and 'name' in self.response['currentAlbum']:
-                global_album.set_current_album(self.response['currentAlbum']['artist'], self.response['currentAlbum']['name'])
+            if 'artist' in self.response['currentAlbum'] and 'name' in self.response['currentAlbum'] and 'youtubeMusicId' in self.response['currentAlbum']:
+                global_album.set_current_album(self.response['currentAlbum']['artist'], self.response['currentAlbum']['name'], self.response['currentAlbum']['youtubeMusicId'])
                 return True
             else:
                 print("No artist or title")
@@ -256,11 +271,13 @@ def run():
             raise ValueError("Something went wrong when performing search on youtube music")
         if search_result.parse_search(album, playlist):
             logging.info("Code executed with no errors today: " + str(date.today()))
+        else:
+            search_result.get_album_from_audioplaylistId(album, playlist)
     except Exception as e:
         logging.error("Could not run the program. Error : " + str(e))
 
-schedule.every().day.at("06:00").do(run)
-# schedule.every(40).seconds.do(run)
+# schedule.every().day.at("06:00").do(run)
+schedule.every(40).seconds.do(run)
 
 while True:
     schedule.run_pending()
