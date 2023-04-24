@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
     paths:
-      - ./version.json
+      - ../../version.json
 
 env:
   DOCKERHUB_USERNAME: zeitmeister
