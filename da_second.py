@@ -23,7 +23,8 @@ if env == "development":
 if env == "production":
     logging.info("Running in production mode dawg!")
     header_auth = os.getenv('HEADER_AUTH_JSON')
-    json_str = base64.b64decode(header_auth).decode() json_dict = json.loads(json_str)
+    json_str = base64.b64decode(header_auth).decode()
+    json_dict = json.loads(json_str)
     with open('header-auth.json', 'w') as f:
         json.dump(json_dict, f)
     ytmusic = YTMusic('header-auth.json')

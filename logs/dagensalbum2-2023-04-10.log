@@ -138,3 +138,80 @@ Precondition check failed.
 11:23:25,185 root INFO Track: Under Siege (Regnum Irae) added to playlist.
 11:23:28,35 root INFO Track: Meaningless Movements added to playlist.
 11:23:30,904 root INFO Track: Infected Voice added to playlist.
+13:31:56,158 root ERROR Could not run the program. Error : Something went wrong when handling the playlist
+13:32:16,647 root ERROR Could not run the program. Error : Something went wrong when handling the playlist
+13:32:37,76 root ERROR Could not run the program. Error : Something went wrong when handling the playlist
+13:32:57,495 root ERROR Could not run the program. Error : Something went wrong when handling the playlist
+13:33:17,949 root ERROR Could not run the program. Error : Something went wrong when handling the playlist
+13:33:38,375 root ERROR Could not run the program. Error : Something went wrong when handling the playlist
+13:33:58,803 root ERROR Could not run the program. Error : Something went wrong when handling the playlist
+13:34:19,262 root ERROR Could not run the program. Error : Something went wrong when handling the playlist
+13:34:39,691 root ERROR Could not run the program. Error : Something went wrong when handling the playlist
+13:35:00,120 root ERROR Could not run the program. Error : Something went wrong when handling the playlist
+13:35:46,801 root ERROR Could not run the program. Error : Something went wrong when handling the playlist
+13:36:07,232 root ERROR Could not run the program. Error : Something went wrong when handling the playlist
+13:36:27,652 root ERROR Could not run the program. Error : Something went wrong when handling the playlist
+13:36:48,60 root ERROR Could not run the program. Error : Something went wrong when handling the playlist
+13:37:08,477 root ERROR Could not run the program. Error : Something went wrong when handling the playlist
+13:37:38,478 root INFO Sepultura
+13:37:38,478 root INFO Arise
+13:37:39,126 root ERROR Could not run the program. Error : Something went wrong when performing search on youtube music
+13:41:16,129 root INFO Todays artist: Sepultura
+13:41:16,129 root INFO Todays album titleArise
+13:41:17,571 root INFO Track: Arise added to playlist.
+13:41:20,331 root INFO Track: Dead Embryonic Cells added to playlist.
+13:41:23,96 root INFO Track: Desperate Cry added to playlist.
+13:41:25,904 root INFO Track: Murder added to playlist.
+13:41:28,668 root INFO Track: Subtraction added to playlist.
+13:41:31,423 root INFO Track: Altered State added to playlist.
+13:41:34,172 root INFO Track: Under Siege (Regnum Irae) added to playlist.
+13:41:36,922 root INFO Track: Meaningless Movements added to playlist.
+13:41:39,686 root INFO Track: Infected Voice added to playlist.
+13:41:42,468 root INFO Track: Orgasmatron added to playlist.
+13:41:45,211 root INFO Track: Intro (Arise) added to playlist.
+13:41:47,975 root INFO Track: C.I.U. (Criminals in Uniform) added to playlist.
+13:41:50,742 root INFO Track: Desperate Cry (Scott Burns Mix) added to playlist.
+13:41:53,101 root INFO Album completely added to playlist
+13:41:53,101 root INFO Code executed with no errors today: 2023-04-10
+13:42:13,552 root INFO Track list is not empty. Starting to remove tracks...
+13:42:14,581 root WARNING Could not empty playlist. Error is :name 'tracklist' is not defined
+13:42:14,582 root ERROR Could not run the program. Error : Something went wrong when handling the playlist
+13:44:18,825 root INFO Todays artist: Sepultura
+13:44:18,825 root INFO Todays album titleArise
+13:44:20,200 root INFO Track: Arise added to playlist.
+13:44:22,976 root INFO Track: Dead Embryonic Cells added to playlist.
+13:44:25,725 root INFO Track: Desperate Cry added to playlist.
+13:44:28,482 root INFO Track: Murder added to playlist.
+13:44:31,274 root INFO Track: Subtraction added to playlist.
+13:44:34,33 root INFO Track: Altered State added to playlist.
+13:44:36,857 root INFO Track: Under Siege (Regnum Irae) added to playlist.
+13:44:39,640 root INFO Track: Meaningless Movements added to playlist.
+13:44:42,390 root INFO Track: Infected Voice added to playlist.
+13:44:45,149 root INFO Track: Orgasmatron added to playlist.
+13:44:47,889 root INFO Track: Intro (Arise) added to playlist.
+13:44:50,653 root INFO Track: C.I.U. (Criminals in Uniform) added to playlist.
+13:44:53,409 root INFO Track: Desperate Cry (Scott Burns Mix) added to playlist.
+13:44:55,742 root INFO Album completely added to playlist
+13:44:55,743 root INFO Code executed with no errors today: 2023-04-10
+13:45:16,149 root INFO Track list is not empty. Starting to remove tracks...
+13:45:17,210 root INFO Todays artist: Sepultura
+13:45:17,210 root INFO Todays album titleArise
+13:45:18,623 root INFO Track: Arise added to playlist.
+13:45:21,394 root INFO Track: Dead Embryonic Cells added to playlist.
+13:45:24,154 root INFO Track: Desperate Cry added to playlist.
+13:45:26,890 root INFO Track: Murder added to playlist.
+13:45:29,665 root INFO Track: Subtraction added to playlist.
+13:45:32,437 root INFO Track: Altered State added to playlist.
+13:45:35,192 root INFO Track: Under Siege (Regnum Irae) added to playlist.
+13:45:37,956 root INFO Track: Meaningless Movements added to playlist.
+13:45:40,719 root INFO Track: Infected Voice added to playlist.
+13:45:43,514 root INFO Track: Orgasmatron added to playlist.
+13:45:46,276 root INFO Track: Intro (Arise) added to playlist.
+13:45:49,26 root INFO Track: C.I.U. (Criminals in Uniform) added to playlist.
+13:45:51,803 root INFO Track: Desperate Cry (Scott Burns Mix) added to playlist.
+13:45:54,124 root INFO Album completely added to playlist
+13:45:54,124 root INFO Code executed with no errors today: 2023-04-10
+13:46:14,536 root INFO Track list is not empty. Starting to remove tracks...
+13:46:15,573 root INFO Todays artist: Sepultura
+13:46:15,573 root INFO Todays album titleArise
+13:46:16,898 root INFO Track: Arise added to playlist.
