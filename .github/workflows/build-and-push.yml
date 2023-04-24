@@ -3,7 +3,7 @@ name: Build and push Docker image
 on:
   push:
     paths:
-      - "../../version.json"
+      - "version.json"
     branches: 
       - "main"
 
