@@ -2,9 +2,11 @@ name: Build and push Docker image
 
 on:
   push:
-    branches: [main]
     paths:
       - ../../version.json
+    branches: 
+      - main
+
 
 env:
   DOCKERHUB_USERNAME: zeitmeister
