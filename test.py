@@ -12,9 +12,15 @@ logging.basicConfig(filename="./logs/test-"+str(date.today())+".log",
                     level=logging.INFO)
 logging.error("Me i expected it to happen")
 
-album = ytmusic.get_album_browse_id("OLAK5uy_kc5UNFZYKSe85ERJt10h59QRSJoJth4rc")
-print(album)
+album = ytmusic.get_album_browse_id("OLAK5uy_nButhpodsTV4W7jZfrTeSYOlTGPFxMI_s")
+logging.info(album)
 
+ytmusicalbum = ytmusic.get_album(album)
+if bool(ytmusicalbum):
+    print(ytmusicalbum)
+    nrOfSongs = len(ytmusicalbum['tracks'])
+else:
+    self.logging.info("No album from audioPlaylistId")
 # for track in album['tracks']:
 #         logging.info("Track: " + track["title"] + " added to playlist.")
 secret = os.environ.get('DAGENS_SECRET')
