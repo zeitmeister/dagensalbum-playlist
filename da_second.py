@@ -39,7 +39,10 @@ if env == "production":
     ytmusic = YTMusic('header-auth.json')
 
 try:
-    global_playlistId = ytmusic.create_playlist("Dagens Album", "En automatiserad playlist av dagens album.")
+    if env == "production":
+        global_playlistId = ytmusic.create_playlist("Dagens Album", "En automatiserad playlist av dagens album.")
+    if env == "development":
+        global_playlistId = ytmusic.create_playlist("Dagens Album DEV", "En automatiserad playlist av dagens album.")
     f = open('version.json')
     data = json.load(f)
     logging.info("running version: " + data['version'])
@@ -67,9 +70,12 @@ def run():
                 playlist.create_playlist()
         search_result = SearchResults(logging, ytmusic)
         if (agr.get_json_response()):
-            parse_agr = agr.compare_and_set(album)
+            parse_agr = agr.compare_with_yesterday(album)
             if not parse_agr:
-                raise ValueError("Something in the AGR is stopping the execution of this program.")
+                logging.info("The album is the same as yesterday. Stopping execution")
+                return False
+            else:
+                album.set_current_album(agr.agr_artist, agr.agr_title, agr.agr_youtubeMusicId)
 
         playlist.set_playlist_json(ytmusic.get_playlist(playlist.playlistId))
         if not playlist.clear_playlist():
@@ -87,7 +93,7 @@ def run():
         else:
             logging.info("Code executed with no errors today: " + str(date.today()))
     except Exception as e:
-        logging.error("Could not run the program. Error : " + str(e))
+        logging.warning("The playlist was not updated for some reason. Reason : " + str(e))
 
 
 if env == "production":

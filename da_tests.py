@@ -25,19 +25,19 @@ def test_no_artist_should_throw(global_album):
 
 def test_json_response(global_album, global_logging):
     agr = AlbumGeneratorRequest(global_logging)
-    agr.set_json_response({"currentAlbum" : {"artist" : "Supertramp", "title": "Crime of the century"}})
-    agr.parse_data(global_album)
+    agr.set_json_response({"currentAlbum" : {"artist" : "Supertramp", "name": "Crime of the century", "youtubeMusicId" : "korv"}})
+    global_album.set_current_album(agr.agr_artist, agr.agr_title, agr.agr_youtubeMusicId)
     assert global_album.artist == "Supertramp" and global_album.title == "Crime of the century"
 
 def test_no_currentAlbum_returns_false(global_album, global_logging):
     agr = AlbumGeneratorRequest(global_logging)
-    agr.set_json_response({"artist" : "supertramp", "title": "crime of the century"})
-    assert agr.parse_data(global_album) == False
+    res = agr.set_json_response({"artist" : "supertramp", "name": "crime of the century", "youtubeMusicId" : "korv"})
+    assert res == False
 
 def test_no_artist_or_title_returns_false(global_album, global_logging):
     agr = AlbumGeneratorRequest(global_logging)
-    agr.set_json_response({"currentAlbum" : {"title": "Crime of the century"}})
-    assert agr.parse_data(global_album) == False
+    res = agr.set_json_response({"currentAlbum" : {"title": "Crime of the century"}})
+    assert res == False
 
 def test_album_is_same_as_yesterday_returns_false(global_album, global_logging):
     agr = AlbumGeneratorRequest(global_logging)

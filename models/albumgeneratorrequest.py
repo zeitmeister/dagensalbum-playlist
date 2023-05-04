@@ -7,7 +7,17 @@ class AlbumGeneratorRequest:
     response = dict()
 
     def set_json_response(self, res):
-        self.response = res
+        if 'currentAlbum' in res:
+            if 'artist' in res['currentAlbum'] and 'name' in res['currentAlbum'] and 'youtubeMusicId' in res['currentAlbum']:
+                self.response = res
+                self.agr_artist = res['currentAlbum']['artist']
+                self.agr_title = res['currentAlbum']['name']
+                self.agr_youtubeMusicId = res['currentAlbum']['youtubeMusicId']
+                return True
+            else:
+                return False
+        else:
+            return False
 
     def get_json_response(self):
         try:
@@ -15,8 +25,7 @@ class AlbumGeneratorRequest:
             response = requests.get(url)
             response_json = response.json()
             if 'artist' in response_json['currentAlbum'] and 'name' in response_json['currentAlbum'] and 'youtubeMusicId' in response_json['currentAlbum']:
-                self.set_json_response(response_json)
-                return True
+                return self.set_json_response(response_json)
             else:
                 self.logging.warning("AGR: All keys not present in response")
                 return False
