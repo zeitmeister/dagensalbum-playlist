@@ -1,11 +1,13 @@
 FROM python:3.10.6
 RUN mkdir /code
 RUN mkdir /code/logs/
+RUN mkdir /code/models/
 WORKDIR /code
 ADD dagensalbum.py /code/
 ADD test.py /code/
 ADD da_second.py /code/
 ADD version.json /code/
+COPY models/ /code/models/
 ENV TZ="Europe/Stockholm"
 ARG PLAYLIST_ENVIRONMENT_BUILD
 ENV PLAYLIST_ENVIRONMENT_BUILD=${PLAYLIST_ENVIRONMENT_BUILD}
