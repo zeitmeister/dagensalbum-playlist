@@ -7,11 +7,18 @@ const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const http_1 = require("http");
 const socket_io_1 = require("socket.io");
-const fs = require('fs');
-const readline = require('readline');
-const readStream = fs.createReadStream('../logs/test-2023-04-26.log');
+const fs_1 = __importDefault(require("fs"));
+const readline_1 = __importDefault(require("readline"));
+let readStream = null;
+console.log(process.env.NODE_ENV);
+if (process.env.NODE_ENV === 'production') {
+    readStream = fs_1.default.createReadStream('dagensalbum.log');
+}
+else {
+    readStream = fs_1.default.createReadStream('../logs/dagensalbum.log');
+}
 const logs = [];
-const rl = readline.createInterface({
+const rl = readline_1.default.createInterface({
     input: readStream,
     crlfDelay: Infinity
 });
@@ -21,9 +28,14 @@ rl.on('line', (line) => {
 rl.on('close', () => {
     console.log('Finished reading file.');
 });
-let pug = require('pug');
 const Tail = require('tail').Tail;
-const tail = new Tail('../logs/test-2023-04-26.log');
+let tail = null;
+if (process.env.NODE_ENV === 'production') {
+    tail = new Tail('dagensalbum.log');
+}
+else {
+    tail = new Tail('../logs/dagensalbum.log');
+}
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT ? process.env.PORT : 3000;
@@ -45,7 +57,7 @@ app.get('/', (req, res) => {
     res.send('Express + TypeScript Server');
 });
 app.get('/logs', (req, res) => {
-    const logFile = fs.readFileSync('../logs/test-2023-04-26.log', 'utf-8');
+    const logFile = fs_1.default.readFileSync('../logs/dagensalbum.log', 'utf-8');
     console.log(logFile);
     res.render('../renderings/index', { logs: logs });
 });

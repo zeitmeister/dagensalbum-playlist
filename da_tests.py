@@ -1,9 +1,11 @@
 import pytest
+import pytest_mock
 import sys
 sys.path.append('./models')
 from album import Album
 from albumgeneratorrequest import AlbumGeneratorRequest
 from playlist import Playlist
+from program import Program
 
 def pytest_configure():
     album = da_second.Album()
@@ -106,3 +108,14 @@ def test_update_playlist_same_length(global_logging, global_ytmusic):
     playlist.update_tracklist()
     assert len(playlist.tracklist) == playlist.playlist_json["trackCount"]
 
+def test_program_playlistId(global_logging, global_ytmusic, global_album, global_playlist):
+    program = Program(global_logging, global_playlist)
+    program.playlist.playlistId = "hej"
+    assert program.playlist.playlistId != None
+
+def test_create_playlist_is_called_if_no_playlistId(global_logging, global_ytmusic, global_album, global_playlist, mocker):
+    mock_create_playlist = mocker.patch('playlist.Playlist.create_playlist')
+    program = Program(global_logging, global_playlist)
+    program.playlist.playlistId = None
+    program.ensure_playlist_exists()
+    mock_create_playlist.assert_called_once()

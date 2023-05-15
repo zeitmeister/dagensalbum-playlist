@@ -4,6 +4,7 @@ import logging
 from datetime import date
 sys.path.append('./models')
 from album import Album
+from playlist import Playlist
 
 logging.basicConfig(filename="./logs/dagensalbum2-"+str(date.today())+".log",
                     format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
@@ -23,3 +24,10 @@ def global_logging():
 def global_ytmusic():
     ytmusic = None
     return ytmusic
+
+@pytest.fixture(scope="session")
+def global_playlist():
+    ytmusic = None
+    logging = None
+    playlist = Playlist(logging, ytmusic)
+    return playlist

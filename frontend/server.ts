@@ -5,7 +5,15 @@ import { Server } from 'socket.io';
 import fs from 'fs';
 import readline from 'readline';
 
-const readStream = fs.createReadStream('../logs/dagensalbum.log');
+let readStream = null;
+console.log(process.env.NODE_ENV);
+if (process.env.NODE_ENV === 'production') {
+  readStream = fs.createReadStream('dagensalbum.log');
+}
+else {
+  readStream = fs.createReadStream('../logs/dagensalbum.log');
+}
+    
 
 const logs: string[] = [];
 const rl = readline.createInterface({
@@ -23,7 +31,14 @@ rl.on('close', () => {
 
 const Tail = require('tail').Tail;
 
-const tail = new Tail('../logs/dagensalbum.log')
+let tail = null;
+
+if (process.env.NODE_ENV === 'production') {
+  tail = new Tail('dagensalbum.log');
+}
+else {
+  tail = new Tail('../logs/dagensalbum.log')
+}
 
 
 
