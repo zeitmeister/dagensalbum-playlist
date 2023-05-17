@@ -5,19 +5,21 @@
   "main": "server.ts",
   "scripts": {
     "start": "node dist/server.js",
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/server.js\"",
+    "dev": "ts-node-dev --fork --poll --respawn --transpile-only server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/node-fetch": "^2.6.4",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "node-fetch": "^3.3.1",
+    "node-fetch": "^2.6.11",
     "pug": "^3.0.2",
     "socket.io": "^4.6.1",
-    "tail": "^2.2.6"
+    "tail": "^2.2.6",
+    "ts-node-dev": "^2.0.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.17",

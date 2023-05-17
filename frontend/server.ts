@@ -4,6 +4,7 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import fs from 'fs';
 import readline from 'readline';
+import fetch from 'node-fetch';
 
 let readStream = null;
 console.log(process.env.NODE_ENV);
@@ -59,9 +60,13 @@ const io = new Server(httpServer);
 app.set('view engine', 'pug');
 
 
-tail.on('line', (data: any) => {
+tail.on('line', async (data: any) => {
   logs.push(data);
-  console.log(typeof(data));
+  const response = await fetch('http://localhost:8080/logs', { 
+      method: 'POST', 
+      body: JSON.stringify({ log: data }),
+      headers: {'Content-Type': 'application/json'}
+    });
   io.emit('log', data);
 });
 
