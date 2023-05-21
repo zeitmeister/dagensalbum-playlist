@@ -6,7 +6,7 @@ import os
 
 ytmusic = YTMusic('header-auth.json')
 
-logging.basicConfig(filename="./logs/test-"+str(date.today())+".log",
+logging.basicConfig(filename="./logs/dagensalbum.log",
                     format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
                     datefmt='%H:%M:%S',
                     level=logging.INFO)
