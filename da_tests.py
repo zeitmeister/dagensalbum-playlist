@@ -109,13 +109,22 @@ def test_update_playlist_same_length(global_logging, global_ytmusic):
     assert len(playlist.tracklist) == playlist.playlist_json["trackCount"]
 
 def test_program_playlistId(global_logging, global_ytmusic, global_album, global_playlist):
-    program = Program(global_logging, global_playlist)
+    agr = AlbumGeneratorRequest(global_logging)
+    program = Program(global_logging, global_playlist, agr)
     program.playlist.playlistId = "hej"
     assert program.playlist.playlistId != None
 
 def test_create_playlist_is_called_if_no_playlistId(global_logging, global_ytmusic, global_album, global_playlist, mocker):
     mock_create_playlist = mocker.patch('playlist.Playlist.create_playlist')
-    program = Program(global_logging, global_playlist)
+    agr = AlbumGeneratorRequest(global_logging)
+    program = Program(global_logging, global_playlist, agr)
     program.playlist.playlistId = None
     program.ensure_playlist_exists()
     mock_create_playlist.assert_called_once()
+
+def program_returns_false_if_could_not_get_json_from_agr(global_logging, global_ytmusic, mocker):
+    mocker.patch('albumgeneratorrequest.AlbumGeneratorRequest.get_json_response', return_value = False)
+    agr = AlbumGeneratorRequest(global_logging)
+    program = Program(global_logging, global_ytmusic, agr)
+    assert program.run() == False
+
