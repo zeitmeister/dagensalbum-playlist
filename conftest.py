@@ -28,6 +28,6 @@ def global_ytmusic():
 @pytest.fixture(scope="session")
 def global_playlist():
     ytmusic = None
-    logging = None
-    playlist = Playlist(logging, ytmusic)
+    logging2 = logging
+    playlist = Playlist(logging2, ytmusic)
     return playlist

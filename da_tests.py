@@ -14,8 +14,7 @@ def test_get_album(global_album):
     assert global_album.set_current_album("Supertramp", "Crime of the century", "hej") == True
 
 def test_no_album_should_throw(global_album):
-    with pytest.raises(Exception):
-        global_album.set_current_album("Supertramp", "")
+    with pytest.raises(Exception): global_album.set_current_album("Supertramp", "")
 
 def test_no_artist_should_throw(global_album):
     with pytest.raises(Exception):
@@ -115,16 +114,53 @@ def test_program_playlistId(global_logging, global_ytmusic, global_album, global
     assert program.playlist.playlistId != None
 
 def test_create_playlist_is_called_if_no_playlistId(global_logging, global_ytmusic, global_album, global_playlist, mocker):
-    mock_create_playlist = mocker.patch('playlist.Playlist.create_playlist')
+    global_playlistId = ""
+
     agr = AlbumGeneratorRequest(global_logging)
     program = Program(global_logging, global_playlist, agr)
+    mock_create_playlist = mocker.spy(program.playlist, 'create_playlist')
     program.playlist.playlistId = None
-    program.ensure_playlist_exists()
-    mock_create_playlist.assert_called_once()
+    program.ensure_playlistId(global_playlistId)
+    assert mock_create_playlist.call_count == 1
 
-def program_returns_false_if_could_not_get_json_from_agr(global_logging, global_ytmusic, mocker):
+def test_program_returns_false_if_could_not_get_json_from_agr(global_logging, global_ytmusic, mocker):
     mocker.patch('albumgeneratorrequest.AlbumGeneratorRequest.get_json_response', return_value = False)
     agr = AlbumGeneratorRequest(global_logging)
     program = Program(global_logging, global_ytmusic, agr)
-    assert program.run() == False
+    assert program.compare_with_yesterday() == False
 
+def test_program_calls_delete_if_clear_playlist_is_false(global_logging, global_playlist, global_ytmusic, mocker):
+
+    agr = AlbumGeneratorRequest(global_logging)
+    program = Program(global_logging, global_playlist, agr)
+    mocker.patch.object(program.playlist, 'clear_playlist', return_value = False)
+    spy = mocker.spy(program.playlist, 'delete_playlist')
+    program.clear_or_delete_playlist()
+    assert spy.call_count == 1
+
+def test_program_creates_playlist_if_delete_playlist_is_true(global_logging, global_playlist, global_ytmusic, mocker):
+    agr = AlbumGeneratorRequest(global_logging)
+    program = Program(global_logging, global_playlist, agr)
+    mocker.patch.object(program.playlist, 'clear_playlist', return_value = False)
+    mocker.patch.object(program.playlist, 'delete_playlist', return_value = True)
+    spy = mocker.spy(program.playlist, 'create_playlist')
+    program.clear_or_delete_playlist()
+    assert spy.call_count == 1
+
+def test_program_clearordelete_is_false_if_delete_is_true_and_create_is_false(global_logging, global_playlist, global_ytmusic, mocker):
+    agr = AlbumGeneratorRequest(global_logging)
+    program = Program(global_logging, global_playlist, agr)
+    mocker.patch.object(program.playlist, 'clear_playlist', return_value = False)
+    spy = mocker.patch.object(program.playlist, 'delete_playlist', return_value = True)
+    mocker.patch.object(program.playlist, 'create_playlist', return_value = False)
+    result = program.clear_or_delete_playlist()
+    assert result == False
+
+def test_program_clearordelete_is_false_if_delete_is_true_and_create_is_true(global_logging, global_playlist, global_ytmusic, mocker):
+    agr = AlbumGeneratorRequest(global_logging)
+    program = Program(global_logging, global_playlist, agr)
+    mocker.patch.object(program.playlist, 'clear_playlist', return_value = False)
+    spy = mocker.patch.object(program.playlist, 'delete_playlist', return_value = True)
+    mocker.patch.object(program.playlist, 'create_playlist', return_value = True)
+    result = program.clear_or_delete_playlist()
+    assert result == True
