@@ -47,6 +47,7 @@ class Playlist:
                 self.logging.info("PLAYLIST: Tracklist updated")
                 return True
             else:
+                self.logging.info('Tracklist up to date. No need to update.')
                 return True
         except Exception as e:
             self.logging.warning("PLAYLIST: Could not update tracklist. Error is :" + str(e))

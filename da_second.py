@@ -76,8 +76,13 @@ def run():
                 return False
             else:
                 album.set_current_album(agr.agr_artist, agr.agr_title, agr.agr_youtubeMusicId)
+        try:
+            logging.info('playlistId: ' + playlist.playlistId)
+            playlist.set_playlist_json(ytmusic.get_playlist(playlist.playlistId))
+        except Exception as e:
+            logging.error("Could not set playlist json: " + str(e))
+            return False
 
-        playlist.set_playlist_json(ytmusic.get_playlist(playlist.playlistId))
         if not playlist.clear_playlist():
             logging.info("Could not clear playlist. Trying to delete playlist and create a new one")
             if not playlist.delete_playlist():

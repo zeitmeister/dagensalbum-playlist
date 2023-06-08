@@ -12,7 +12,7 @@ logging.basicConfig(filename="./logs/dagensalbum.log",
                     level=logging.INFO)
 logging.error("Me i expected it to happen")
 
-album = ytmusic.get_album_browse_id("OLAK5uy_mK38OMt0vuNZIPhIcYwUtPkBgwArA1A8Q")
+album = ytmusic.get_album_browse_id("OLAK5uy_lKfyal6hd8SK6_OW_pYS9eQscYjemiVWI")
 logging.info(album)
 
 ytmusicalbum = ytmusic.get_album(album)

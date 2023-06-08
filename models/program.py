@@ -20,24 +20,27 @@ class Program:
                 logging.info("The album is the same as yesterday. Stopping execution")
                 return False
             else:
-                #This should be a separate function
-                self.album.set_current_album(agr.agr_artist, agr.agr_title, agr.agr_youtubeMusicId)
                 return True
         else:
             return False
+
+    def set_album(self, agr):
+        return self.album.set_current_album(agr.agr_artist, agr.agr_title, agr.agr_youtubeMusicId)
 
     def clear_or_delete_playlist(self):
         if not self.playlist.clear_playlist():
             self.logging.info("Could not clear playlist")
             if self.playlist.delete_playlist():
-                
                 if not self.playlist.create_playlist():
                     self.logging.info("Could not create playlist")
                     return False
                 else:
                     return True
+            else:
+                return False
         else:
             return True
+
 
     def search_and_populate(self):
         search_result = SearchResults(logging, ytmusic)
@@ -57,8 +60,12 @@ class Program:
             return False
         if not self.compare_with_yesterday():
             logging.info("Could not compare with yesterday")
+        if not self.set_album(self.agr):
+            logging.error("Could not set album")
+            return False
         if not self.clear_or_delete_playlist():
             logging.error("The playlist is in a failed state. Stopping execution")
+            return False
         if not self.search_and_populate():
             logging.error("Could not search and populate")
         logging.info("Code executed with no errors today: " + str(date.today()))
