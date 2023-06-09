@@ -1,4 +1,5 @@
 header-auth.json
+oauth.json
 logs/
 **/*.pyc
 frontend/node_modules
