@@ -27,7 +27,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           build-args: |
-            "HEADER_AUTH_JSON=${{ secrets.AUTH }}"
+            "HEADER_AUTH_JSON=${{ secrets.OAUTH }}"
             "PLAYLIST_ENVIRONMENT_BUILD=production"
             "TEST=${{ env.TEST }}"
             "HEADER_AUTH_JSON2=${{ env.HEADER_AUTH_JSON2 }}"
@@ -39,7 +39,6 @@ jobs:
         run:
           echo "HELLO DUWG"
           ${{ env.TEST.PLAYLIST_ENVIRONMENT_BUILD }}
-          ${{ env.HEADER_AUTH_JSON }}
           echo "HELLO DAWG"
 
 
