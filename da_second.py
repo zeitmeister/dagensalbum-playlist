@@ -34,6 +34,7 @@ if env == "production":
     header_auth = os.getenv('HEADER_AUTH_JSON')
     json_str = base64.b64decode(header_auth).decode()
     json_dict = json.loads(json_str)
+    print(str(json_dict))
     with open('header-auth.json', 'w') as f:
         json.dump(json_dict, f)
     ytmusic = YTMusic('header-auth.json')
@@ -102,8 +103,8 @@ def run():
 
 
 if env == "production":
-    schedule.every().day.at("06:00").do(run)
-    # schedule.every(60).seconds.do(run)
+    # schedule.every().day.at("06:00").do(run)
+    schedule.every(60).seconds.do(run)
 if env == "development":
     schedule.every(10).seconds.do(run)
 
