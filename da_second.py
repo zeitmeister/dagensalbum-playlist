@@ -101,9 +101,17 @@ def run():
     except Exception as e:
         logging.warning("The playlist was not updated for some reason. Reason : " + str(e))
 
+def keeping_alive():
+    try:
+        logging.info("Ha ha ha ha, staying alive, staying alive")
+        ytmusic.get_playlist(playlist.playlistId)
+    except Exception as e:
+        logging.error("Could not keep alive: " + str(e))
+
 
 if env == "production":
     schedule.every().day.at("06:00").do(run)
+    schedule.every().day.at("18:00").do(keeping_alive)
     # schedule.every(60).seconds.do(run)
 if env == "development":
     schedule.every(10).seconds.do(run)
