@@ -77,6 +77,9 @@ class Playlist:
         if 'tracks' in ytmusicalbum:
             for track in ytmusicalbum['tracks']:
                 trackId = track['videoId']
+                if trackId is None:
+                    self.logging.error("PLAYLIST: Could not find video id for track: " + track["title"])
+                    return False
                 try:
                     result = self.ytmusic.add_playlist_items(self.playlistId, [trackId])
                     self.logging.info("PLAYLIST: Track: " + track["title"] + " added to playlist.")

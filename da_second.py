@@ -27,7 +27,7 @@ global_playlistId = "temp"
 
 if env == "development":
     logging.info("Running in development mode")
-    ytmusic = YTMusic('header-auth.json')
+    ytmusic = YTMusic('oauth.json')
 
 if env == "production":
     logging.info("Running in production mode dawg!")
