@@ -41,7 +41,7 @@ if env == "production":
 
 try:
     if env == "production":
-        global_playlistId = ytmusic.create_playlist("Dagens Album", "En automatiserad playlist av dagens album.")
+        global_playlistId = ytmusic.create_playlist("Dagens Album", "En automatiserad playlist av dagens album my dude.")
     if env == "development":
         global_playlistId = ytmusic.create_playlist("Dagens Album DEV", "En automatiserad playlist av dagens album.")
     f = open('version.json')
