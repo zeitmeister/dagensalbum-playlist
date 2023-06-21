@@ -105,6 +105,7 @@ def keeping_alive():
     try:
         logging.info("Ha ha ha ha, staying alive, staying alive")
         ytmusic.get_playlist(playlist.playlistId)
+        ytmusic.
     except Exception as e:
         logging.error("Could not keep alive: " + str(e))
 
