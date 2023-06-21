@@ -61,6 +61,16 @@ def run():
     logging.info("New day, new album!?")
     logging.info("running version: " + data['version'])
     f.close()
+    if env == "production":
+        logging.info("Running in production mode dawg!")
+        header_auth = os.getenv('HEADER_AUTH_JSON')
+        json_str = base64.b64decode(header_auth).decode()
+        json_dict = json.loads(json_str)
+        print(str(json_dict))
+        with open('header-auth.json', 'w') as f:
+            json.dump(json_dict, f)
+        ytmusic = YTMusic('header-auth.json')
+
     try:
         agr = AlbumGeneratorRequest(logging)
 
@@ -105,7 +115,6 @@ def keeping_alive():
     try:
         logging.info("Ha ha ha ha, staying alive, staying alive")
         ytmusic.get_playlist(playlist.playlistId)
-        ytmusic.
     except Exception as e:
         logging.error("Could not keep alive: " + str(e))
 
