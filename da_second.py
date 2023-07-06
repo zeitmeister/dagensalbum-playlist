@@ -30,7 +30,7 @@ if env == "development":
         logging.info("Running in development mode")
         ytmusic = YTMusic('oauth.json')
     except Exception as e:
-
+        logging.error("Could not create ytmusic: " + str(e))
 
 if env == "production":
     logging.info("Running in production mode dawg!")
@@ -43,6 +43,7 @@ if env == "production":
 
 try:
     playlists = ytmusic.get_library_playlists()
+    playlistDevId = None
     for playlist in playlists:
         logging.info(playlist['title'])
         if playlist['title'] == "Dagens Album DEV":
@@ -59,7 +60,7 @@ try:
             global_playlistId = ytmusic.create_playlist("Dagens Album", "En automatiserad playlist av dagens album my dude.")
             logging.info('Created new playlist')
     if env == "development":
-        if bool(playlistDevId):
+        if playlistDevId is not None and bool(playlistDevId):
             global_playlistId = playlistDevId
             logging.info('No need to create new playlist')
         else:
