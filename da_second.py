@@ -78,13 +78,6 @@ album = Album()
 def run():
     global ytmusic
 
-    for playlist in playlists:
-        logging.info(playlist['title'])
-        if playlist['title'] == "Dagens Album DEV":
-            playlistDevId = playlist['playlistId']
-        if playlist['title'] == "Dagens Album":
-            logging.info("Found playlist: " + playlist['title'])
-            playlistProdId = playlist['playlistId']
     f = open('version.json')
 
     data = json.load(f)
