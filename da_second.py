@@ -26,8 +26,17 @@ logging.basicConfig(filename="./logs/dagensalbum.log",
 global_playlistId = "temp"
 
 if env == "development":
-    logging.info("Running in development mode")
-    ytmusic = YTMusic('oauth.json')
+    try:
+        logging.info("Running in development mode")
+        ytmusic = YTMusic('oauth.json')
+        print('ytmusic created')
+        playlists = ytmusic.get_library_playlists()
+        for playlist in playlists:
+            print(playlist['title'])
+            print(playlist['playlistId'])
+    except Exception as e:
+        print("Could not create ytmusic object: " + str(e))
+
 
 if env == "production":
     logging.info("Running in production mode dawg!")
@@ -40,10 +49,26 @@ if env == "production":
     ytmusic = YTMusic('header-auth.json')
 
 try:
+    playlists = ytmusic.get_library_playlists()
+    for playlist in playlists:
+        print(playlist['title'])
+        if playlist['title'] == "Dagens Album DEV":
+            playlistDevId = playlist['playlistId']
+        if playlist['title'] == "Dagens Album":
+            playlistProdId = playlist['playlistId']
+
     if env == "production":
-        global_playlistId = ytmusic.create_playlist("Dagens Album", "En automatiserad playlist av dagens album my dude.")
+        if bool(playlistProdId):
+            global_playlistId = playlistProdId
+            logging.info('No need to create new playlist')
+        else:
+            global_playlistId = ytmusic.create_playlist("Dagens Album", "En automatiserad playlist av dagens album my dude.")
     if env == "development":
-        global_playlistId = ytmusic.create_playlist("Dagens Album DEV", "En automatiserad playlist av dagens album.")
+        if bool(playlistDevId):
+            global_playlistId = playlistDevId
+            logging.info('No need to create new playlist')
+        else:
+            global_playlistId = ytmusic.create_playlist("Dagens Album DEV", "En automatiserad playlist av dagens album.")
     f = open('version.json')
     data = json.load(f)
     logging.info("running version: " + data['version'])
@@ -56,20 +81,13 @@ playlist.playlistId = global_playlistId
 album = Album()
 
 def run():
+    global ytmusic
+
     f = open('version.json')
     data = json.load(f)
     logging.info("New day, new album!?")
-    logging.info("running version: " + data['version'])
+    logging.info("running supercool version: " + data['version'])
     f.close()
-    if env == "production":
-        logging.info("Running in production mode dawg!")
-        header_auth = os.getenv('HEADER_AUTH_JSON')
-        json_str = base64.b64decode(header_auth).decode()
-        json_dict = json.loads(json_str)
-        print(str(json_dict))
-        with open('header-auth.json', 'w') as f:
-            json.dump(json_dict, f)
-        ytmusic = YTMusic('header-auth.json')
 
     try:
         agr = AlbumGeneratorRequest(logging)
@@ -111,17 +129,10 @@ def run():
     except Exception as e:
         logging.warning("The playlist was not updated for some reason. Reason : " + str(e))
 
-def keeping_alive():
-    try:
-        logging.info("Ha ha ha ha, staying alive, staying alive")
-        ytmusic.get_playlist(playlist.playlistId)
-    except Exception as e:
-        logging.error("Could not keep alive: " + str(e))
 
 
 if env == "production":
     schedule.every().day.at("06:00").do(run)
-    schedule.every().day.at("18:00").do(keeping_alive)
     # schedule.every(60).seconds.do(run)
 if env == "development":
     schedule.every(10).seconds.do(run)
