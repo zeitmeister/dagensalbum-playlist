@@ -29,13 +29,7 @@ if env == "development":
     try:
         logging.info("Running in development mode")
         ytmusic = YTMusic('oauth.json')
-        print('ytmusic created')
-        playlists = ytmusic.get_library_playlists()
-        for playlist in playlists:
-            print(playlist['title'])
-            print(playlist['playlistId'])
     except Exception as e:
-        print("Could not create ytmusic object: " + str(e))
 
 
 if env == "production":
@@ -43,7 +37,6 @@ if env == "production":
     header_auth = os.getenv('HEADER_AUTH_JSON')
     json_str = base64.b64decode(header_auth).decode()
     json_dict = json.loads(json_str)
-    print(str(json_dict))
     with open('header-auth.json', 'w') as f:
         json.dump(json_dict, f)
     ytmusic = YTMusic('header-auth.json')
@@ -85,7 +78,15 @@ album = Album()
 def run():
     global ytmusic
 
+    for playlist in playlists:
+        logging.info(playlist['title'])
+        if playlist['title'] == "Dagens Album DEV":
+            playlistDevId = playlist['playlistId']
+        if playlist['title'] == "Dagens Album":
+            logging.info("Found playlist: " + playlist['title'])
+            playlistProdId = playlist['playlistId']
     f = open('version.json')
+
     data = json.load(f)
     logging.info("New day, new album!?")
     logging.info("running supercool version: " + data['version'])
@@ -135,7 +136,6 @@ def run():
 
 if env == "production":
     schedule.every().day.at("06:00").do(run)
-    # schedule.every(60).seconds.do(run)
 if env == "development":
     schedule.every(10).seconds.do(run)
 
