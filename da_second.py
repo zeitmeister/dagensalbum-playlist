@@ -51,10 +51,11 @@ if env == "production":
 try:
     playlists = ytmusic.get_library_playlists()
     for playlist in playlists:
-        print(playlist['title'])
+        logging.info(playlist['title'])
         if playlist['title'] == "Dagens Album DEV":
             playlistDevId = playlist['playlistId']
         if playlist['title'] == "Dagens Album":
+            logging.info("Found playlist: " + playlist['title'])
             playlistProdId = playlist['playlistId']
 
     if env == "production":
@@ -63,6 +64,7 @@ try:
             logging.info('No need to create new playlist')
         else:
             global_playlistId = ytmusic.create_playlist("Dagens Album", "En automatiserad playlist av dagens album my dude.")
+            logging.info('Created new playlist')
     if env == "development":
         if bool(playlistDevId):
             global_playlistId = playlistDevId
