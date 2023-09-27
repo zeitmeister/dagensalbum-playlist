@@ -58,7 +58,7 @@ try:
         {"playlistDescription":"playlistProdId", "playlistName" : "Dagens Album", "playlistId": ""},
         "todaysDev":
         {"playlistDescription":"playlistDevId", "playlistName" : "Dagens Album DEV", "playlistId": ""},
-        "yesterdays":
+        "yesterdaysProd":
         {"playlistDescription":"yesterdaysPlaylistDevId", "playlistName" : "Gårdagens Album", "playlistId": ""},
         "yesterdaysDev":
         {"playlistDescription":"yesterdaysPlaylistProdId", "playlistName" : "Gårdagens Album DEV", "playlistId": ""}
