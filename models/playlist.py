@@ -73,34 +73,43 @@ class Playlist:
             self.logging.warning("PLAYLIST: Could not create playlist. Error is :" + str(e))
             return False
 
+    def add_to_playlist(self, videoIdArray):
+        try:
+            self.ytmusic.add_playlist_items(self.playlistId, videoIdArray)
+            return True
+        except Exception as e:
+            self.logging.warning("PLAYLIST: Could not add to playlist. Error is :" + str(e))
+            return False
+
     def populate_playlist(self, ytmusicalbum, class_album):
         if 'tracks' in ytmusicalbum:
             for track in ytmusicalbum['tracks']:
                 trackId = track['videoId']
-                if trackId is None:
-                    self.logging.error("PLAYLIST: Could not find video id for track: " + track["title"])
-                    return False
-                try:
-                    result = self.ytmusic.add_playlist_items(self.playlistId, [trackId])
-                    self.logging.info("PLAYLIST: Track: " + track["title"] + " added to playlist.")
-                    trackDict = {
-                        "videoId" : trackId,
-                        "setVideoId" : result['playlistEditResults'][0]['setVideoId']
-                    }
-                    self.tracklist.append(trackDict)
-                except Exception as e:
-                    self.logging.info("PLAYLIST: Could not add track to playlist. Error: " + str(e))
+                if trackId is None or trackId == "":
+                    self.logging.error("PLAYLIST: Could not find video id for track: " + track["title"] +'. Track not added to playlist')
+                else:
+                    try:
+                        result = self.ytmusic.add_playlist_items(self.playlistId, [trackId])
+                        self.logging.info("PLAYLIST: Track: " + track["title"] + " added to playlist.")
+                        trackDict = {
+                            "videoId" : trackId,
+                            "setVideoId" : result['playlistEditResults'][0]['setVideoId']
+                        }
+                        self.tracklist.append(trackDict)
+                    except Exception as e:
+                        self.logging.info("PLAYLIST: Could not add track to playlist. Error: " + str(e))
                 time.sleep(2)
             self.track_count = self.ytmusic.get_playlist(self.playlistId)["trackCount"]
         else:
             self.logging.info("PLAYLIST: No tracks in album from youtube music")
             return False
-
+        playlist_length = self.ytmusic.get_playlist(self.playlistId)["trackCount"]
         if self.ytmusic.get_playlist(self.playlistId)["trackCount"] == class_album.nrOfSongs:
             self.logging.info("PLAYLIST: Album completely added to playlist")
             return True
         else:
-            self.logging.warning("PLAYLIST: Album not completely added to playlist. Some tracks appear to be missing")
-            return True
+            self.logging.warning("PLAYLIST: Album not completely added to playlist. Only " + str(playlist_length) + " out of " + str(class_album.nrOfSongs) + " added.")
+            
+            return False
 
 

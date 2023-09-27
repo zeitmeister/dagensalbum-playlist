@@ -35,13 +35,12 @@ class AlbumGeneratorRequest:
 
     def compare_with_yesterday(self, global_album):
         if global_album.artist == self.response['currentAlbum']['artist'] and global_album.title == self.response['currentAlbum']['name']:
-            self.logging.info("AGR: Album is the same as yesterday. No need to update playlist")
+            self.logging.info("AGR: Album is the same as yesterday.")
             return False
         else:
-            self.logging.info("AGR: Album is different from yesterday. Updating playlist")
+            self.logging.info("AGR: Album is different from yesterday. Setting current album.")
             global_album.set_current_album(self.response['currentAlbum']['artist'], self.response['currentAlbum']['name'], self.response['currentAlbum']['youtubeMusicId'])
             return True
-        return False
         self.logging.warning("AGR: No current album")
         return False
 

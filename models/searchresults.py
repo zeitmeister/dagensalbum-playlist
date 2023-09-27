@@ -5,6 +5,8 @@ class SearchResults:
         self.ytmusic = ytmusic
 
     searchres = dict()
+    browseId = None
+    ytmusicalbum = None
 
     def search(self, artist, title):
         try:
@@ -36,12 +38,12 @@ class SearchResults:
 
     def get_album_from_audioplaylistId(self, album, playlist):
         try:
-            browseId = self.ytmusic.get_album_browse_id(album.audioPlaylistId)
-            ytmusicalbum = self.ytmusic.get_album(browseId)
-            if bool(ytmusicalbum):
-                album.nrOfSongs = len(ytmusicalbum['tracks'])
+            self.browseId = self.ytmusic.get_album_browse_id(album.audioPlaylistId)
+            self.ytmusicalbum = self.ytmusic.get_album(self.browseId)
+            if bool(self.ytmusicalbum):
+                album.nrOfSongs = len(self.ytmusicalbum['tracks'])
                 self.logging.info("SEARCHRESULT: Got album from audioPlaylistId")
-                return playlist.populate_playlist(ytmusicalbum, album)
+                return playlist.populate_playlist(self.ytmusicalbum, album)
             else:
                 self.logging.info("SEARCHRESULT: No album from audioPlaylistId")
                 return False

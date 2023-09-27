@@ -1,12 +1,19 @@
 from searchresults import SearchResults
+from datetime import date
+from status import Status
+from album import Album
 class Program:
-    def __init__(self, logging, playlist, agr):
+    def __init__(self, logging, playlist, agr, search_result, yesterday_playlist):
         self.logging = logging
         self.playlist = playlist
+        self.yesterdaysPlaylist = yesterday_playlist
+        self.search_result = search_result
         self.agr = agr
-        self.album = None
+        self.album = Album()
+        self.status = Status()
 
     def ensure_playlistId(self, global_playlistId):
+        print("global_playlistId: " + global_playlistId)
         if not bool(self.playlist.playlistId):
             if bool(global_playlistId):
                 self.playlist.playlistId = global_playlistId
@@ -15,13 +22,14 @@ class Program:
     
     def compare_with_yesterday(self):
         if (self.agr.get_json_response()):
-            parse_agr = self.agr.compare_with_yesterday(album)
+            parse_agr = self.agr.compare_with_yesterday(self.album)
             if not parse_agr:
-                logging.info("The album is the same as yesterday. Stopping execution")
                 return False
             else:
                 return True
         else:
+            self.status.error = True
+            self.status.status_message = "Could not get album from album generator"
             return False
 
     def set_album(self, agr):
@@ -40,34 +48,65 @@ class Program:
                 return False
         else:
             return True
+    def set_yesterdays_playlist(self):
+        try:
+            self.playlist.update_tracklist()
+            videoIdArray = []
+            if len(self.playlist.tracklist) > 0:
+                for track in self.playlist.tracklist:
+                    videoIdArray.append(track['videoId'])
+                self.yesterdaysPlaylist.add_to_playlist(videoIdArray)
+            else:
+                self.logging.info("The tracklist for the current playlist is empty. So can't update yesterdays playlist")
+            return True
+        except Exception as e:
+            self.logging.warning("Could not set yesterdays playlist. Error is :" + str(e))
+            return False
 
 
     def search_and_populate(self):
-        search_result = SearchResults(logging, ytmusic)
-        if not search_result.get_album_from_audioplaylistid(self.album, self.playlist):
-            raise valueerror("something went wrong when getting album with the help from 1001 albums generator")
-            if search_result.search(self.album.arist, self.album.title):
-                if search_result.parse_search(self.album, self.playlist):
-                    logging.info("code executed with no errors today: " + str(date.today()))
+        if not self.search_result.get_album_from_audioplaylistId(self.album, self.playlist):
+            self.logging.warning("Could not get album from audioPlaylistId")
+            self.status.error = True
+            if self.search_result.search(self.album.artist, self.album.title):
+                if self.search_result.parse_search(self.album, self.playlist):
+                    self.logging.info("code executed with no errors today1: " + str(date.today()))
+                    self.status.error = False
+                    self.status.status_message = "No errors"
+                    return True
+            else:
+                self.logging.error("Could not search youtube music")
+                self.status.error = True
+                self.status.status_message = "Could not search youtube music"
+                return False
         else:
-            logging.info("code executed with no errors today: " + str(date.today()))
-            return False
+            self.logging.info("code executed with no errors today2: " + str(date.today()))
+            return True
 
 
     def run(self):
-        if not self.ensure_playlistId(self.playlist.playlistId):
-            logging.error("Could not ensure the playlistId")
+        if not self.playlist.playlistId:
+            self.logging.error("Could not ensure the playlistId")
             return False
+        if not self.set_yesterdays_playlist():
+            self.logging.error("Could not set yesterdays playlist")
         if not self.compare_with_yesterday():
-            logging.info("Could not compare with yesterday")
+            if self.status.status_message == "Could not get album from album generator":
+                self.logging.error(self.status.error_message)
+                return False
+            else:
+                self.logging.info("Album is the same as yesterday. No need to update playlist. Stopping execution")
+                return True
         if not self.set_album(self.agr):
-            logging.error("Could not set album")
+            self.logging.error("Could not set album")
             return False
+
         if not self.clear_or_delete_playlist():
-            logging.error("The playlist is in a failed state. Stopping execution")
+            self.logging.error("The playlist is in a failed state. Stopping execution")
             return False
         if not self.search_and_populate():
-            logging.error("Could not search and populate")
-        logging.info("Code executed with no errors today: " + str(date.today()))
+            self.logging.error("Could not search and populate")
+            return False
+
         return True
 
