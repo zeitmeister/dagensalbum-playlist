@@ -27,7 +27,7 @@ logging.basicConfig(filename="./logs/dagensalbum.log",
                     level=logging.INFO)
 
 global_playlistId = "temp"
-global_yesterdayId = None
+global_yesterdayId = "temp2"
 test_id = "temp2"
 
 if env == "development":
@@ -50,6 +50,12 @@ if env == "production":
 
 
 try:
+    f = open('version.json')
+
+    data = json.load(f)
+    logging.info("New day, new album!?")
+    logging.info("running supercool version: " + data['version'])
+    f.close()
     playlists = ytmusic.get_library_playlists()
     playlistDevId = None
     yesterdaysPlaylistDevId = None
