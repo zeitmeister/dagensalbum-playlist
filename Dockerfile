@@ -5,7 +5,6 @@ RUN mkdir /code/models/
 RUN mkdir /code/helpers/
 WORKDIR /code
 ADD dagensalbum.py /code/
-ADD test.py /code/
 ADD da_second.py /code/
 ADD new.py /code/
 ADD version.json /code/
