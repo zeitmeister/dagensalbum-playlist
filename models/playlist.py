@@ -36,6 +36,7 @@ class Playlist:
     def update_tracklist(self):
         try:
             if self.playlist_json['trackCount'] != len(self.tracklist):
+                self.logging.info(str(self.playlist_json['trackCount']) + " the playlist has  tracks")
                 self.logging.info("Tracklist is not up to date. Updating...")
                 self.tracklist.clear()
                 for track in self.playlist_json['tracks']:
@@ -56,7 +57,7 @@ class Playlist:
 
     def delete_playlist(self):
         try:
-            ytmusic.delete_playlist(self.playlistId)
+            self.ytmusic.delete_playlist(self.playlistId)
             return True
             self.logging.info("PLAYLIST: Playlist deleted")
         except Exception as e:

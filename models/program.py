@@ -5,9 +5,9 @@ from album import Album
 class Program:
     def __init__(self, logging, playlist, agr, search_result, yesterday_playlist):
         self.logging = logging
-        self.playlist = playlist
         self.yesterdaysPlaylist = yesterday_playlist
         self.search_result = search_result
+        self.playlist = playlist
         self.agr = agr
         self.album = Album()
         self.status = Status()
@@ -53,14 +53,16 @@ class Program:
             self.playlist.update_tracklist()
             videoIdArray = []
             if len(self.playlist.tracklist) > 0:
+                self.logging.info("PROGRAM: The tracklist for the current playlist is not empty. Updating yesterdays playlist" + str(self.playlist.tracklist))
                 for track in self.playlist.tracklist:
                     videoIdArray.append(track['videoId'])
                 self.yesterdaysPlaylist.add_to_playlist(videoIdArray)
+                self.logging.info("PROGRAM: Yesterdays playlist updated")
             else:
                 self.logging.info("The tracklist for the current playlist is empty. So can't update yesterdays playlist")
             return True
         except Exception as e:
-            self.logging.warning("Could not set yesterdays playlist. Error is :" + str(e))
+            self.logging.warning("PROGRAM: Could not set yesterdays playlist. Error is :" + str(e))
             return False
 
 
@@ -102,8 +104,12 @@ class Program:
             return False
 
         if not self.clear_or_delete_playlist():
-            self.logging.error("The playlist is in a failed state. Stopping execution")
-            return False
+            self.logging.error("The playlist is in a failed state. Creating new one...")
+            if not self.playlist.create_playlist():
+                self.logging.error("Could not create playlist")
+                return False
+            self.logging.info("New playlist created")
+            return True
         if not self.search_and_populate():
             self.logging.error("Could not search and populate")
             return False
