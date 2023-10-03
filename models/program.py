@@ -36,6 +36,10 @@ class Program:
         return self.album.set_current_album(agr.agr_artist, agr.agr_title, agr.agr_youtubeMusicId)
 
     def clear_or_delete_playlist(self):
+        trackDictArr = self.playlist.get_trackDictArr()
+        if len(trackDictArr) == 0:
+            self.logging.info("Playlist is empty. No need to clear it")
+            return True
         if not self.playlist.clear_playlist():
             self.logging.info("Could not clear playlist")
             if self.playlist.delete_playlist():
@@ -50,16 +54,19 @@ class Program:
             return True
     def set_yesterdays_playlist(self):
         try:
-            self.playlist.update_tracklist()
+            trackDictArr = self.playlist.get_trackDictArr()
+            if not bool(trackDictArr):
+                self.logging.warning("PROGRAM: Could not get trackDictArr")
+                return False
             videoIdArray = []
-            if len(self.playlist.tracklist) > 0:
-                self.logging.info("PROGRAM: The tracklist for the current playlist is not empty. Updating yesterdays playlist" + str(self.playlist.tracklist))
-                for track in self.playlist.tracklist:
+            if len(trackDictArr) > 0:
+                self.logging.info("PROGRAM: The trackDictArr for the current playlist is not empty. Updating yesterdays playlist")
+                for track in trackDictArr:
                     videoIdArray.append(track['videoId'])
                 self.yesterdaysPlaylist.add_to_playlist(videoIdArray)
                 self.logging.info("PROGRAM: Yesterdays playlist updated")
             else:
-                self.logging.info("The tracklist for the current playlist is empty. So can't update yesterdays playlist")
+                self.logging.info("The trackDictArr for the current playlist is empty. So can't update yesterdays playlist")
             return True
         except Exception as e:
             self.logging.warning("PROGRAM: Could not set yesterdays playlist. Error is :" + str(e))
@@ -89,6 +96,9 @@ class Program:
     def run(self):
         if not self.playlist.playlistId:
             self.logging.error("Could not ensure the playlistId")
+            return False
+        if not self.playlist.set_playlistJsonFromYtMusic():
+            self.logging.error("Could not set playlistJsonFromYtMusic")
             return False
         if not self.set_yesterdays_playlist():
             self.logging.error("Could not set yesterdays playlist")
