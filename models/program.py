@@ -5,9 +5,9 @@ from album import Album
 class Program:
     def __init__(self, logging, playlist, agr, search_result, yesterday_playlist):
         self.logging = logging
-        self.playlist = playlist
         self.yesterdaysPlaylist = yesterday_playlist
         self.search_result = search_result
+        self.playlist = playlist
         self.agr = agr
         self.album = Album()
         self.status = Status()
@@ -36,6 +36,10 @@ class Program:
         return self.album.set_current_album(agr.agr_artist, agr.agr_title, agr.agr_youtubeMusicId)
 
     def clear_or_delete_playlist(self):
+        trackDictArr = self.playlist.get_trackDictArr()
+        if len(trackDictArr) == 0:
+            self.logging.info("Playlist is empty. No need to clear it")
+            return True
         if not self.playlist.clear_playlist():
             self.logging.info("Could not clear playlist")
             if self.playlist.delete_playlist():
@@ -50,17 +54,22 @@ class Program:
             return True
     def set_yesterdays_playlist(self):
         try:
-            self.playlist.update_tracklist()
+            trackDictArr = self.playlist.get_trackDictArr()
+            if not bool(trackDictArr):
+                self.logging.warning("PROGRAM: Could not get trackDictArr")
+                return False
             videoIdArray = []
-            if len(self.playlist.tracklist) > 0:
-                for track in self.playlist.tracklist:
+            if len(trackDictArr) > 0:
+                self.logging.info("PROGRAM: The trackDictArr for the current playlist is not empty. Updating yesterdays playlist")
+                for track in trackDictArr:
                     videoIdArray.append(track['videoId'])
                 self.yesterdaysPlaylist.add_to_playlist(videoIdArray)
+                self.logging.info("PROGRAM: Yesterdays playlist updated")
             else:
-                self.logging.info("The tracklist for the current playlist is empty. So can't update yesterdays playlist")
+                self.logging.info("The trackDictArr for the current playlist is empty. So can't update yesterdays playlist")
             return True
         except Exception as e:
-            self.logging.warning("Could not set yesterdays playlist. Error is :" + str(e))
+            self.logging.warning("PROGRAM: Could not set yesterdays playlist. Error is :" + str(e))
             return False
 
 
@@ -88,6 +97,9 @@ class Program:
         if not self.playlist.playlistId:
             self.logging.error("Could not ensure the playlistId")
             return False
+        if not self.playlist.set_playlistJsonFromYtMusic():
+            self.logging.error("Could not set playlistJsonFromYtMusic")
+            return False
         if not self.set_yesterdays_playlist():
             self.logging.error("Could not set yesterdays playlist")
         if not self.compare_with_yesterday():
@@ -102,8 +114,12 @@ class Program:
             return False
 
         if not self.clear_or_delete_playlist():
-            self.logging.error("The playlist is in a failed state. Stopping execution")
-            return False
+            self.logging.error("The playlist is in a failed state. Creating new one...")
+            if not self.playlist.create_playlist():
+                self.logging.error("Could not create playlist")
+                return False
+            self.logging.info("New playlist created")
+            return True
         if not self.search_and_populate():
             self.logging.error("Could not search and populate")
             return False
