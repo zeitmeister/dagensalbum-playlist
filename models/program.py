@@ -19,7 +19,7 @@ class Program:
                 self.playlist.playlistId = global_playlistId
             else:
                 self.playlist.create_playlist()
-    
+
     def compare_with_yesterday(self):
         if (self.agr.get_json_response()):
             parse_agr = self.agr.compare_with_yesterday(self.album)
@@ -92,7 +92,7 @@ class Program:
             self.logging.error("Could not set yesterdays playlist")
         if not self.compare_with_yesterday():
             if self.status.status_message == "Could not get album from album generator":
-                self.logging.error(self.status.error_message)
+                self.logging.error(self.status.status_message)
                 return False
             else:
                 self.logging.info("Album is the same as yesterday. No need to update playlist. Stopping execution")
