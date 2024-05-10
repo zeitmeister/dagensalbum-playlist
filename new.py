@@ -23,7 +23,7 @@ ytmusic = None
 
 logging.basicConfig(filename="./logs/dagensalbum.log",
                     format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
-                    datefmt='%H:%M:%S',
+                    datefmt='%Y-%m-%d %H:%M:%S',
                     level=logging.INFO)
 
 global_playlistId = "temp"

@@ -1,7 +1,7 @@
-from searchresults import SearchResults
+from models.searchresults import SearchResults
 from datetime import date
-from status import Status
-from album import Album
+from models.status import Status
+from models.album import Album
 class Program:
     def __init__(self, logging, playlist, agr, search_result, yesterday_playlist):
         self.logging = logging
@@ -63,6 +63,7 @@ class Program:
                 self.logging.info("PROGRAM: The trackDictArr for the current playlist is not empty. Updating yesterdays playlist")
                 for track in trackDictArr:
                     videoIdArray.append(track['videoId'])
+                self.yesterdaysPlaylist.set_playlist_json(self.playlist.playlist_json)
                 self.yesterdaysPlaylist.add_to_playlist(videoIdArray)
                 self.logging.info("PROGRAM: Yesterdays playlist updated")
             else:
@@ -79,7 +80,6 @@ class Program:
             self.status.error = True
             if self.search_result.search(self.album.artist, self.album.title):
                 if self.search_result.parse_search(self.album, self.playlist):
-                    self.logging.info("code executed with no errors today1: " + str(date.today()))
                     self.status.error = False
                     self.status.status_message = "No errors"
                     return True
@@ -94,25 +94,32 @@ class Program:
 
 
     def run(self):
+        # First we make sure that the playlistId is set
         if not self.playlist.playlistId:
             self.logging.error("Could not ensure the playlistId")
             return False
+        # Then we set the playlistJsonFromYtMusic based on the playlistId
         if not self.playlist.set_playlistJsonFromYtMusic():
             self.logging.error("Could not set playlistJsonFromYtMusic")
             return False
+        # We then appends to the yesterdays playlist with the current tracks in dagens album playlist. Should not brake app if this doesn't work
         if not self.set_yesterdays_playlist():
             self.logging.error("Could not set yesterdays playlist")
+        # We then compare the new album from albumgenerator with the album from yesterday
+        # This is also where we fetch stuff from albumgenerator and update the AGR object accordingly
         if not self.compare_with_yesterday():
+            # TODO: Refactor this to a better if statement
             if self.status.status_message == "Could not get album from album generator":
                 self.logging.error(self.status.status_message)
                 return False
             else:
                 self.logging.info("Album is the same as yesterday. No need to update playlist. Stopping execution")
                 return True
+        # We then set the album
         if not self.set_album(self.agr):
             self.logging.error("Could not set album")
             return False
-
+        # When album is set we try to clear the playlist. If it fails we try to delete the playlist and create a new one
         if not self.clear_or_delete_playlist():
             self.logging.error("The playlist is in a failed state. Creating new one...")
             if not self.playlist.create_playlist():
@@ -120,6 +127,8 @@ class Program:
                 return False
             self.logging.info("New playlist created")
             return True
+        # This is where almost everything happens. We first try to get the album from album generator if it fails we do the search
+        # TODO Refactor this function to be separate functions. This function does to much at the moment.
         if not self.search_and_populate():
             self.logging.error("Could not search and populate")
             return False
